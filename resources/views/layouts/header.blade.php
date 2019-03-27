@@ -24,7 +24,7 @@
     <![endif]-->
 
     <!-- Favicons -->
-    <link rel="shortcut icon" href="{{ URL::asset('ico/favicon.ico')}}">
+    <link rel="shortcut icon" href="{{ URL::asset('/ico/favicon.ico')}}">
 </head>
 <body>
 {{--<div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>--}}

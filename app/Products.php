@@ -9,4 +9,7 @@ class Products extends Model
     public function categories(){
         return $this->belongsToMany('App\Categories');
     }
+    public function prices(){
+        return $this->belongsToMany('App\Prices');
+    }
 }

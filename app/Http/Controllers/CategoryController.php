@@ -13,11 +13,13 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-
-        $products = Products::with('categories')->get();
-        return view('category_view',['products'=>$products]);
+        //$products = Products::with('categories')->where('id',$request[''])->get();
+        $prices = Products::find($request['id'])->prices()->get();
+        $products =Categories::find($request['id'])->products()->get();
+        $categories = Categories::with('products')->orderBy('title')->get();
+        return view('category_view',['products'=>$products,'categories'=>$categories]);
     }
 
     /**

@@ -9,25 +9,16 @@ Lower Header Section
         <div class="row">
             <div class="span4">
                 <h1>
-                    <a class="logo" href="index.html"><span>Twitter Bootstrap ecommerce template</span>
-                        <img src="{{ URL::asset('img/logo-bootstrap-shoping-cart.png')}}" alt="bootstrap sexy shop">
+                    <a class="logo" href="/"><span>Twitter Bootstrap ecommerce template</span>
+                        <img src="{{ URL::asset('img/logo-bootstrap-shoping-cart.png')}}" alt="Shop">
                     </a>
                 </h1>
             </div>
             <div class="span4">
-                <div class="offerNoteWrapper">
-                    <h1 class="dotmark">
-                        <i class="icon-cut"></i>
-                        Twitter Bootstrap shopping cart HTML template is available @ $14
-                    </h1>
-                </div>
+
             </div>
             <div class="span4 alignR">
-                <p><br> <strong> Support (24/7) :  0800 1234 678 </strong><br><br></p>
-                <span class="btn btn-mini">[ 2 ] <span class="icon-shopping-cart"></span></span>
-                <span class="btn btn-warning btn-mini">$</span>
-                <span class="btn btn-mini">&pound;</span>
-                <span class="btn btn-mini">&euro;</span>
+                <p><br> <strong> Support (24/7) : +380992270031 </strong><br><br></p>
             </div>
         </div>
     </header>
@@ -55,27 +46,6 @@ Lower Header Section
                     <form action="#" class="navbar-search pull-left">
                         <input type="text" placeholder="Search" class="search-query span2">
                     </form>
-                    <ul class="nav pull-right">
-                        <li class="dropdown">
-                            <a data-toggle="dropdown" class="dropdown-toggle" href="#"><span class="icon-lock"></span> Login <b class="caret"></b></a>
-                            <div class="dropdown-menu">
-                                <form class="form-horizontal loginFrm">
-                                    <div class="control-group">
-                                        <input type="text" class="span2" id="inputEmail" placeholder="Email">
-                                    </div>
-                                    <div class="control-group">
-                                        <input type="password" class="span2" id="inputPassword" placeholder="Password">
-                                    </div>
-                                    <div class="control-group">
-                                        <label class="checkbox">
-                                            <input type="checkbox"> Remember me
-                                        </label>
-                                        <button type="submit" class="shopBtn btn-block">Sign in</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </li>
-                    </ul>
                 </div>
             </div>
         </div>
@@ -87,16 +57,9 @@ Lower Header Section
         <div id="sidebar" class="span3">
             <div class="well well-small">
                 <ul class="nav nav-list">
-                    <li><a href="products.html"><span class="icon-chevron-right"></span>Fashion</a></li>
-                    <li><a href="products.html"><span class="icon-chevron-right"></span>Watches</a></li>
-                    <li><a href="products.html"><span class="icon-chevron-right"></span>Fine Jewelry</a></li>
-                    <li><a href="products.html"><span class="icon-chevron-right"></span>Fashion Jewelry</a></li>
-                    <li><a href="products.html"><span class="icon-chevron-right"></span>Engagement & Wedding</a></li>
-                    <li><a href="products.html"><span class="icon-chevron-right"></span>Men's Jewelry</a></li>
-                    <li><a href="products.html"><span class="icon-chevron-right"></span>Vintage & Antique</a></li>
-                    <li><a href="products.html"><span class="icon-chevron-right"></span>Loose Diamonds </a></li>
-                    <li><a href="products.html"><span class="icon-chevron-right"></span>Loose Beads</a></li>
-                    <li><a href="products.html"><span class="icon-chevron-right"></span>See All Jewelry & Watches</a></li>
+                    @foreach($categories as $category)
+                        <li><a href="/category/{{$category->id}}"><span class="icon-chevron-right"></span>{{$category->title}}</a></li>
+                    @endforeach
                     <li style="border:0"> &nbsp;</li>
                     <li> <a class="totalInCart" href="cart.html"><strong>Total Amount  <span class="badge badge-warning pull-right" style="line-height:18px;">$448.42</span></strong></a></li>
                 </ul>
@@ -155,18 +118,19 @@ Lower Header Section
                 <div class="row-fluid">
                     <ul class="thumbnails">
                         @foreach($products as $product)
+
                         <li class="span4">
                             <div class="thumbnail">
-                                <a href="/product/id" class="overlay"></a>
-                                <a class="zoomTool" href="/product/id" title="add to cart"><span class="icon-search"></span>VIEW</a>
-                                <a href="/product/id"><img src="{{ URL::asset('img/a.jpg')}}" alt=""></a>
+                                <a href="/product/{{$product->id}}" class="overlay"></a>
+                                <a class="zoomTool" href="/product/{{$product->id}}" title="add to cart"><span class="icon-search"></span>VIEW</a>
+                                <a href="/product/{{$product->id}}"><img src="{{ URL::asset($product->product_img)}}" alt="" width="207" height="268"></a>
                                 <div class="caption cntr">
                                     <p>{{$product->title}}</p>
-                                    <p><strong> $22.00</strong></p>
+
+                                    <p><strong> @foreach($product->prices as $price){{$price['price']}}@endforeach</strong></p>
                                     <h4><a class="shopBtn" href="#" title="add to cart"> Add to cart </a></h4>
                                     <div class="actionList">
-                                        <a class="pull-left" href="#">Add to Wish List </a>
-                                        <a class="pull-left" href="#"> Add to Compare </a>
+
                                     </div>
                                     <br class="clr">
                                 </div>

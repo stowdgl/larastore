@@ -62,7 +62,7 @@ Lower Header Section
             <div class="well well-small">
                 <ul class="nav nav-list">
                     @foreach($categories as $category)
-                    <li><a href="category/{{$category->title}}"><span class="icon-chevron-right"></span>{{$category->title}}</a></li>
+                    <li><a href="category/{{$category->id}}"><span class="icon-chevron-right"></span>{{$category->title}}</a></li>
                     @endforeach
                     <li style="border:0"> &nbsp;</li>
                     <li> <a class="totalInCart" href="cart.html"><strong>Total Amount  <span class="badge badge-warning pull-right" style="line-height:18px;">$448.42</span></strong></a></li>
@@ -156,106 +156,31 @@ Lower Header Section
             <div class="well well-small">
                 <h3>New Products </h3>
                 <hr class="soften"/>
-                <div class="row-fluid">
-                    <div id="newProductCar" class="carousel slide">
-                        <div class="carousel-inner">
-                            <div class="item active">
-                                <ul class="thumbnails">
-                                    <li class="span3">
-                                        <div class="thumbnail">
-                                            <a class="zoomTool" href="/details" title="add to cart"><span class="icon-search"></span> QUICK VIEW</a>
-                                            <a href="#" class="tag"></a>
-                                            <a href="/details"><img src="{{ URL::asset('img/bootstrap-ring.png')}}" alt="bootstrap-ring"></a>
-                                            <p>Name</p>
-                                        </div>
-                                    </li>
 
-                                </ul>
-                            </div>
-                            <div class="item">
-                                <ul class="thumbnails">
-                                    <li class="span3">
-                                        <div class="thumbnail">
-                                            <a class="zoomTool" href="/details" title="add to cart"><span class="icon-search"></span> QUICK VIEW</a>
-                                            <a  href="/details"><img src="{{ URL::asset('img/i.jpg')}}" alt=""></a>
-                                        </div>
-                                    </li>
-                                    <li class="span3">
-                                        <div class="thumbnail">
-                                            <a class="zoomTool" href="/details" title="add to cart"><span class="icon-search"></span> QUICK VIEW</a>
-                                            <a  href="/details"><img src="{{ URL::asset('img/f.jpg')}}" alt=""></a>
-                                        </div>
-                                    </li>
-                                    <li class="span3">
-                                        <div class="thumbnail">
-                                            <a class="zoomTool" href="/details" title="add to cart"><span class="icon-search"></span> QUICK VIEW</a>
-                                            <a  href="/details"><img src="{{ URL::asset('img/h.jpg')}}" alt=""></a>
-                                        </div>
-                                    </li>
-                                    <li class="span3">
-                                        <div class="thumbnail">
-                                            <a class="zoomTool" href="/details" title="add to cart"><span class="icon-search"></span> QUICK VIEW</a>
-                                            <a  href="/details"><img src="{{ URL::asset('img/j.jpg')}}" alt=""></a>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <a class="left carousel-control" href="#newProductCar" data-slide="prev">&lsaquo;</a>
-                        <a class="right carousel-control" href="#newProductCar" data-slide="next">&rsaquo;</a>
-                    </div>
-                </div>
                 <div class="row-fluid">
                     <ul class="thumbnails">
+                        <?php $i = 0?>
+                        @foreach($products as $product)
+                                @if($i>3)
+                                    @break
+                                    {{$i++}}
+                                @endif
                         <li class="span4">
                             <div class="thumbnail">
 
                                 <a class="zoomTool" href="/details" title="add to cart"><span class="icon-search"></span> QUICK VIEW</a>
-                                <a href="/details"><img src="{{ URL::asset('img/b.jpg')}}" alt=""></a>
+                                <a href="/details"><img src="{{ URL::asset($product->product_img)}}" alt=""></a>
                                 <div class="caption cntr">
-                                    <p>Manicure & Pedicure</p>
-                                    <p><strong> $22.00</strong></p>
+                                    <p>{{$product->title}}</p>
+                                    <p><strong> @foreach($product->prices as $price){{$price['price']}}@endforeach</strong></p>
                                     <h4><a class="shopBtn" href="#" title="add to cart"> Add to cart </a></h4>
                                     <div class="actionList">
-                                        <a class="pull-left" href="#">Add to Wish List </a>
-                                        <a class="pull-left" href="#"> Add to Compare </a>
                                     </div>
                                     <br class="clr">
                                 </div>
                             </div>
                         </li>
-                        <li class="span4">
-                            <div class="thumbnail">
-                                <a class="zoomTool" href="/details" title="add to cart"><span class="icon-search"></span> QUICK VIEW</a>
-                                <a href="/details"><img src="{{ URL::asset('img/c.jpg')}}" alt=""></a>
-                                <div class="caption cntr">
-                                    <p>Manicure & Pedicure</p>
-                                    <p><strong> $22.00</strong></p>
-                                    <h4><a class="shopBtn" href="#" title="add to cart"> Add to cart </a></h4>
-                                    <div class="actionList">
-                                        <a class="pull-left" href="#">Add to Wish List </a>
-                                        <a class="pull-left" href="#"> Add to Compare </a>
-                                    </div>
-                                    <br class="clr">
-                                </div>
-                            </div>
-                        </li>
-                        <li class="span4">
-                            <div class="thumbnail">
-                                <a class="zoomTool" href="/details" title="add to cart"><span class="icon-search"></span> QUICK VIEW</a>
-                                <a href="/details"><img src="{{ URL::asset('img/a.jpg')}}" alt=""></a>
-                                <div class="caption cntr">
-                                    <p>Manicure & Pedicure</p>
-                                    <p><strong> $22.00</strong></p>
-                                    <h4><a class="shopBtn" href="#" title="add to cart"> Add to cart </a></h4>
-                                    <div class="actionList">
-                                        <a class="pull-left" href="#">Add to Wish List </a>
-                                        <a class="pull-left" href="#"> Add to Compare </a>
-                                    </div>
-                                    <br class="clr">
-                                </div>
-                            </div>
-                        </li>
+                                @endforeach
                     </ul>
                 </div>
             </div>

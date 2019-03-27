@@ -16,11 +16,8 @@ class ProductController extends Controller
     public function index()
     {
         //
-        $products= Products::with('categories')->orderBy('title')->get();
+        $products= Products::with('categories','prices')->orderBy('created_at')->get();
         $categories = Categories::with('products')->orderBy('title')->get();
-        /*foreach ($products->category as $category) {
-            $categories[] = $category;
-        }*/
         return view('app',['categories'=>$categories,'products'=>$products]);
     }
 
