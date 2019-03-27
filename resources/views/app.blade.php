@@ -44,7 +44,7 @@ Lower Header Section
                         <li class=""><a href="grid-view.html">Grid View</a></li>
                         <li class=""><a href="three-col.html">Three Column</a></li>
                         <li class=""><a href="four-col.html">Four Column</a></li>
-                        <li class=""><a href="general.html">General Content</a></li>
+                        <li class=""><a href="https://sharij.net">Новости</a></li>
                     </ul>
                     <form action="#" class="navbar-search pull-left" style="padding-top: 5px;">
                         <input type="text" placeholder="Search" class="search-query span2">
@@ -161,15 +161,16 @@ Lower Header Section
                     <ul class="thumbnails">
                         <?php $i = 0?>
                         @foreach($products as $product)
-                                @if($i>3)
+                                @if($i>2)
                                     @break
-                                    {{$i++}}
+                                @else
+                                   <?php $i++?>
                                 @endif
                         <li class="span4">
                             <div class="thumbnail">
 
-                                <a class="zoomTool" href="/details" title="add to cart"><span class="icon-search"></span> QUICK VIEW</a>
-                                <a href="/details"><img src="{{ URL::asset($product->product_img)}}" alt=""></a>
+                                <a class="zoomTool" href="/product/{{$product->id}}" title="add to cart"><span class="icon-search"></span> QUICK VIEW</a>
+                                <a href="/product/{{$product->id}}"><img src="{{ URL::asset($product->product_img)}}" alt=""></a>
                                 <div class="caption cntr">
                                     <p>{{$product->title}}</p>
                                     <p><strong> @foreach($product->prices as $price){{$price['price']}}@endforeach</strong></p>

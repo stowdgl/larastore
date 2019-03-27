@@ -41,7 +41,7 @@ Lower Header Section
                         <li class=""><a href="grid-view.html">Grid View</a></li>
                         <li class=""><a href="three-col.html">Three Column</a></li>
                         <li class=""><a href="four-col.html">Four Column</a></li>
-                        <li class=""><a href="general.html">General Content</a></li>
+                        <li class=""><a href="https://sharij.net">Новости</a></li>
                     </ul>
                     <form action="#" class="navbar-search pull-left">
                         <input type="text" placeholder="Search" class="search-query span2">
