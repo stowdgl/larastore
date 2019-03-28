@@ -36,14 +36,11 @@ Lower Header Section
                 </a>
                 <div class="nav-collapse">
                     <ul class="nav">
-                        <li class="active"><a href="index.html">Home	</a></li>
-                        <li class=""><a href="list-view.html">List View</a></li>
-                        <li class=""><a href="grid-view.html">Grid View</a></li>
-                        <li class=""><a href="three-col.html">Three Column</a></li>
-                        <li class=""><a href="four-col.html">Four Column</a></li>
+                        <li class="active"><a href="/">Home	</a></li>
+                        <li class=""><a href="/products">All products</a></li>
                         <li class=""><a href="https://sharij.net">Новости</a></li>
                     </ul>
-                    <form action="#" class="navbar-search pull-left">
+                    <form action="#" class="navbar-search pull-left" style="padding-top: 5px; margin-right: 10px;float: right;">
                         <input type="text" placeholder="Search" class="search-query span2">
                     </form>
                 </div>
@@ -111,7 +108,7 @@ Lower Header Section
         </div>
         <div class="span9">
             <ul class="breadcrumb">
-                <li><a href="index.html">Home</a> <span class="divider">/</span></li>
+                <li><a href="/">Home</a> <span class="divider">/</span></li>
                 <li><a href="products.html">Items</a> <span class="divider">/</span></li>
                 <li class="active">Preview</li>
             </ul>
@@ -134,11 +131,12 @@ Lower Header Section
                         <h3>{{$products[0]->title}}</h3>
                         <hr class="soft"/>
 
-                        <form class="form-horizontal qtyFrm">
+                        <form class="form-horizontal qtyFrm" action="/addtocart" method="post">
+                            @csrf
                             <div class="control-group">
                                 <label class="control-label"><span>@foreach($products[0]->prices as $product){{$product['price']}}@endforeach</span></label>
                                 <div class="controls">
-                                    <input type="number" class="span6" placeholder="Qty.">
+                                    <input type="number" class="span6" placeholder="Qty." min="1" max=@foreach($products as $product)"{{$product->items_available}}"@endforeach>
                                 </div>
                             </div>
 
@@ -164,10 +162,11 @@ Lower Header Section
                                     </select>
                                 </div>
                             </div>
-                            <h4>100 items in stock</h4>
+                            <h4>@foreach($products as $product) {{$product->items_available}} @endforeach items in stock</h4>
                             <p>Nowadays the lingerie industry is one of the most successful business spheres.
                                 Nowadays the lingerie industry is one of ...
                             <p>
+                                <input type="hidden" value="{{$product->id}}" name="id">
                                 <button type="submit" class="shopBtn"><span class=" icon-shopping-cart"></span> Add to cart</button>
                         </form>
                     </div>
@@ -178,13 +177,13 @@ Lower Header Section
                 <ul id="productDetail" class="nav nav-tabs">
                     <li class="active"><a href="#home" data-toggle="tab">Product Details</a></li>
                     <li class=""><a href="#profile" data-toggle="tab">Related Products </a></li>
-                    <li class="dropdown">
+                    {{--<li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Acceseries <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a href="#cat1" data-toggle="tab">Category one</a></li>
                             <li><a href="#cat2" data-toggle="tab">Category two</a></li>
                         </ul>
-                    </li>
+                    </li>--}}
                 </ul>
                 <div id="myTabContent" class="tab-content tabWrapper">
                     <div class="tab-pane fade active in" id="home">
@@ -207,12 +206,17 @@ Lower Header Section
 
                     </div>
                     <div class="tab-pane fade" id="profile">
+
+                        @foreach($relprod as $product)
+
+
                         <div class="row-fluid">
+
                             <div class="span2">
-                                <img src="{{URL::asset('img/d.jpg')}}" alt="">
+                                <a href="/product/{{$product->id}}"><img src="{{URL::asset($product->product_img)}}" alt=""></a>
                             </div>
                             <div class="span6">
-                                <h5>Product Name </h5>
+                                <a href="/product/{{$product->id}}"><h5>{{$product->title }}</h5></a>
                                 <p>
                                     Nowadays the lingerie industry is one of the most successful business spheres.
                                     We always stay in touch with the latest fashion tendencies -
@@ -221,121 +225,20 @@ Lower Header Section
                             </div>
                             <div class="span4 alignR">
                                 <form class="form-horizontal qtyFrm">
-                                    <h3> $140.00</h3>
-                                    <label class="checkbox">
-                                        <input type="checkbox">  Adds product to compair
-                                    </label><br>
+                                    <h3>@foreach($products[0]->prices as $product){{$product['price']}}@endforeach</h3>
+                                    <br>
                                     <div class="btn-group">
-                                        <a href="product_details.html" class="defaultBtn"><span class=" icon-shopping-cart"></span> Add to cart</a>
-                                        <a href="product_details.html" class="shopBtn">VIEW</a>
+                                        <form action="/addtocart">
+                                            <input type="hidden" value="{{$product->id}}">
+                                            <button type="submit" class="shopBtn"><span class=" icon-shopping-cart"></span> Add to cart</button>
+                                        </form>
+
                                     </div>
                                 </form>
                             </div>
                         </div>
                         <hr class="soft">
-                        <div class="row-fluid">
-                            <div class="span2">
-                                <img src="{{URL::asset('img/d.jpg')}}" alt="">
-                            </div>
-                            <div class="span6">
-                                <h5>Product Name </h5>
-                                <p>
-                                    Nowadays the lingerie industry is one of the most successful business spheres.
-                                    We always stay in touch with the latest fashion tendencies -
-                                    that is why our goods are so popular..
-                                </p>
-                            </div>
-                            <div class="span4 alignR">
-                                <form class="form-horizontal qtyFrm">
-                                    <h3> $140.00</h3>
-                                    <label class="checkbox">
-                                        <input type="checkbox">  Adds product to compair
-                                    </label><br>
-                                    <div class="btn-group">
-                                        <a href="product_details.html" class="defaultBtn"><span class=" icon-shopping-cart"></span> Add to cart</a>
-                                        <a href="product_details.html" class="shopBtn">VIEW</a>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <hr class="soft"/>
-                        <div class="row-fluid">
-                            <div class="span2">
-                                <img src="{{URL::asset('img/d.jpg')}}" alt="">
-                            </div>
-                            <div class="span6">
-                                <h5>Product Name </h5>
-                                <p>
-                                    Nowadays the lingerie industry is one of the most successful business spheres.
-                                    We always stay in touch with the latest fashion tendencies -
-                                    that is why our goods are so popular..
-                                </p>
-                            </div>
-                            <div class="span4 alignR">
-                                <form class="form-horizontal qtyFrm">
-                                    <h3> $140.00</h3>
-                                    <label class="checkbox">
-                                        <input type="checkbox">  Adds product to compair
-                                    </label><br>
-                                    <div class="btn-group">
-                                        <a href="product_details.html" class="defaultBtn"><span class=" icon-shopping-cart"></span> Add to cart</a>
-                                        <a href="product_details.html" class="shopBtn">VIEW</a>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <hr class="soft"/>
-                        <div class="row-fluid">
-                            <div class="span2">
-                                <img src="{{URL::asset('img/d.jpg')}}" alt="">
-                            </div>
-                            <div class="span6">
-                                <h5>Product Name </h5>
-                                <p>
-                                    Nowadays the lingerie industry is one of the most successful business spheres.
-                                    We always stay in touch with the latest fashion tendencies -
-                                    that is why our goods are so popular..
-                                </p>
-                            </div>
-                            <div class="span4 alignR">
-                                <form class="form-horizontal qtyFrm">
-                                    <h3> $140.00</h3>
-                                    <label class="checkbox">
-                                        <input type="checkbox">  Adds product to compair
-                                    </label><br>
-                                    <div class="btn-group">
-                                        <a href="product_details.html" class="defaultBtn"><span class=" icon-shopping-cart"></span> Add to cart</a>
-                                        <a href="product_details.html" class="shopBtn">VIEW</a>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <hr class="soften"/>
-                        <div class="row-fluid">
-                            <div class="span2">
-                                <img src="{{URL::asset('img/d.jpg')}}" alt="">
-                            </div>
-                            <div class="span6">
-                                <h5>Product Name </h5>
-                                <p>
-                                    Nowadays the lingerie industry is one of the most successful business spheres.
-                                    We always stay in touch with the latest fashion tendencies -
-                                    that is why our goods are so popular..
-                                </p>
-                            </div>
-                            <div class="span4 alignR">
-                                <form class="form-horizontal qtyFrm">
-                                    <h3> $140.00</h3>
-                                    <label class="checkbox">
-                                        <input type="checkbox">  Adds product to compair
-                                    </label><br>
-                                    <div class="btn-group">
-                                        <a href="product_details.html" class="defaultBtn"><span class=" icon-shopping-cart"></span> Add to cart</a>
-                                        <a href="product_details.html" class="shopBtn">VIEW</a>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                     <div class="tab-pane fade" id="cat1">
                         <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade. Messenger bag gentrify pitchfork tattooed craft beer, iphone skateboard locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy irony. Leggings gentrify squid 8-bit cred pitchfork. Williamsburg banh mi whatever gluten-free, carles pitchfork biodiesel fixie etsy retro mlkshk vice blog. Scenester cred you probably haven't heard of them, vinyl craft beer blog stumptown. Pitchfork sustainable tofu synth chambray yr.</p>
@@ -576,24 +479,4 @@ Lower Header Section
     </footer>
 </div><!-- /container -->
 
-<div class="copyright">
-    <div class="container">
-        <p class="pull-right">
-            <a href="#"><img src="{{URL::asset('img/maestro.png')}}" alt="payment"></a>
-            <a href="#"><img src="{{URL::asset('img/mc.png')}}" alt="payment"></a>
-            <a href="#"><img src="{{URL::asset('img/pp.png')}}" alt="payment"></a>
-            <a href="#"><img src="{{URL::asset('img/visa.png')}}" alt="payment"></a>
-            <a href="#"><img src="{{URL::asset('img/disc.png')}}" alt="payment"></a>
-        </p>
-        <span>Copyright &copy; 2013<br> bootstrap ecommerce shopping template</span>
-    </div>
-</div>
-<a href="#" class="gotop"><i class="icon-double-angle-up"></i></a>
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="{{URL::asset('js/jquery.js')}}"></script>
-<script src="{{URL::asset('js/bootstrap.min.js')}}"></script>
-<script src="{{URL::asset('js/jquery.easing-1.3.min.js')}}"></script>
-<script src="{{URL::asset('js/jquery.scrollTo-1.4.3.1-min.js')}}"></script>
-<script src="{{URL::asset('js/shop.js')}}"></script>
-</body>
-</html>
+@extends('layouts.footer')

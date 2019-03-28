@@ -17,8 +17,9 @@ class ProductController extends Controller
     {
         //
         $products= Products::with('categories','prices')->orderBy('created_at')->get();
+        $newproducts = Products::with('categories','prices')->orderBy('created_at','desc')->take(3)->get();
         $categories = Categories::with('products')->orderBy('title')->get();
-        return view('app',['categories'=>$categories,'products'=>$products]);
+        return view('app',['categories'=>$categories,'products'=>$products,'new_products'=>$newproducts]);
     }
 
     /**
@@ -41,7 +42,11 @@ class ProductController extends Controller
     {
         //
     }
-
+    public function grid(){
+        $products= Products::with('categories','prices')->orderBy('created_at')->get();
+        $categories = Categories::with('products')->orderBy('title')->get();
+        return view('grid_view',['categories'=>$categories,'products'=>$products]);
+    }
     /**
      * Display the specified resource.
      *
@@ -52,7 +57,8 @@ class ProductController extends Controller
     {
         $products =Products::with('prices')->where('id',$request['id'])->get();
         $categories = Categories::with('products')->orderBy('title')->get();
-        return view('details',['categories'=>$categories,'products'=>$products]);
+        $relprod = Products::with('categories','prices')->take(5)->get();
+        return view('details',['categories'=>$categories,'products'=>$products,'relprod'=>$relprod]);
     }
 
     /**

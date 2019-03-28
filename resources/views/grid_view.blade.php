@@ -10,7 +10,7 @@ Lower Header Section
             <div class="span4">
                 <h1>
                     <a class="logo" href="/"><span>Twitter Bootstrap ecommerce template</span>
-                        <img src="{{ URL::asset('img/logo-bootstrap-shoping-cart.png')}}" alt="Shop">
+                        <img src="{{URL::asset('img/logo-bootstrap-shoping-cart.png')}}" alt="Shop">
                     </a>
                 </h1>
             </div>
@@ -18,7 +18,9 @@ Lower Header Section
 
             </div>
             <div class="span4 alignR">
-                <p><br> <strong> Support (24/7) : +380992270031 </strong><br><br></p>
+                <p><br> <strong> Support (24/7) :  +380992270031 </strong><br><br></p>
+                <span class="btn btn-warning btn-mini">$</span>
+                <span class="btn btn-mini">&pound;</span>
             </div>
         </div>
     </header>
@@ -41,8 +43,9 @@ Lower Header Section
                         <li class=""><a href="https://sharij.net">Новости</a></li>
                     </ul>
                     <form action="#" class="navbar-search pull-left" style="padding-top: 5px; margin-right: 10px;float: right;">
-                        <input type="text" placeholder="Search" class="search-query span2" >
+                        <input type="text" placeholder="Search" class="search-query span2">
                     </form>
+
                 </div>
             </div>
         </div>
@@ -68,7 +71,7 @@ Lower Header Section
                     only valid for online order. <br><br><a class="defaultBtn" href="#">Click here </a>
                 </p>
             </div>
-            <div class="well well-small" ><a href="#"><img src="{{ URL::asset('img/paypal.jpg')}}" alt="payment method paypal"></a></div>
+            <div class="well well-small" ><a href="#"><img src="{{URL::asset('img/paypal.jpg')}}" alt="payment method paypal"></a></div>
 
             <a class="shopBtn btn-block" href="#">Upcoming products <br><small>Click to view</small></a>
             <br>
@@ -77,7 +80,7 @@ Lower Header Section
                 <li>
                     <div class="thumbnail">
                         <a class="zoomTool" href="product_details.html" title="add to cart"><span class="icon-search"></span> QUICK VIEW</a>
-                        <img src="{{ URL::asset('img/bootstrap-ecommerce-templates.png')}}" alt="bootstrap ecommerce templates">
+                        <img src="{{URL::asset('img/bootstrap-ecommerce-templates.png')}}" alt="bootstrap ecommerce templates">
                         <div class="caption">
                             <h4><a class="defaultBtn" href="product_details.html">VIEW</a> <span class="pull-right">$22.00</span></h4>
                         </div>
@@ -87,7 +90,7 @@ Lower Header Section
                 <li>
                     <div class="thumbnail">
                         <a class="zoomTool" href="product_details.html" title="add to cart"><span class="icon-search"></span> QUICK VIEW</a>
-                        <img src="{{ URL::asset('img/shopping-cart-template.png')}}" alt="shopping cart template">
+                        <img src="{{URL::asset('img/shopping-cart-template.png')}}" alt="shopping cart template">
                         <div class="caption">
                             <h4><a class="defaultBtn" href="product_details.html">VIEW</a> <span class="pull-right">$22.00</span></h4>
                         </div>
@@ -97,7 +100,7 @@ Lower Header Section
                 <li>
                     <div class="thumbnail">
                         <a class="zoomTool" href="product_details.html" title="add to cart"><span class="icon-search"></span> QUICK VIEW</a>
-                        <img src="{{ URL::asset('img/bootstrap-template.png')}}" alt="bootstrap template">
+                        <img src="{{URL::asset('img/bootstrap-template.png')}}" alt="bootstrap template">
                         <div class="caption">
                             <h4><a class="defaultBtn" href="product_details.html">VIEW</a> <span class="pull-right">$22.00</span></h4>
                         </div>
@@ -112,31 +115,39 @@ Lower Header Section
             -->
             <div class="well well-small">
                 <h3>Our Products </h3>
+                <?php $i = 0;?>
+
                 <div class="row-fluid">
                     <ul class="thumbnails">
-                        @foreach($products as $product)
+                @foreach($products as $product)
+                <?php $i++?>
+
+
 
                         <li class="span4">
                             <div class="thumbnail">
                                 <a href="/product/{{$product->id}}" class="overlay"></a>
-                                <a class="zoomTool" href="/product/{{$product->id}}" title="add to cart"><span class="icon-search"></span>VIEW</a>
-                                <a href="/product/{{$product->id}}"><img src="{{ URL::asset($product->product_img)}}" alt="" width="207" height="268"></a>
+                                <a class="zoomTool" href="/product/{{$product->id}}" title="add to cart"><span class="icon-search"></span> QUICK VIEW</a>
+                                <a href="/product/{{$product->id}}"><img src="{{URL::asset($product->product_img)}}" alt=""></a>
                                 <div class="caption cntr">
                                     <p>{{$product->title}}</p>
-
                                     <p><strong> @foreach($product->prices as $price){{$price['price']}}@endforeach</strong></p>
                                     <h4>@if($product->items_available==0) <a class="shopBtn" href="#" title=""> NOT AVAILABLE </a>@else<a class="shopBtn" href="#" title="add to cart">Add to cart</a> @endif</h4>
                                     <div class="actionList">
-
                                     </div>
                                     <br class="clr">
                                 </div>
                             </div>
                         </li>
-                        @endforeach
+
+
+
+
+
+
+              @endforeach
                     </ul>
                 </div>
-
             </div>
         </div>
     </div>
@@ -149,22 +160,22 @@ Lower Header Section
         <hr class="soften"/>
         <div class="row">
             <div class="span2">
-                <a href="#"><img alt="" src="{{ URL::asset('img/1.png')}}"></a>
+                <a href="#"><img alt="" src="{{URL::asset('img/1.png')}}"></a>
             </div>
             <div class="span2">
-                <a href="#"><img alt="" src="{{ URL::asset('img/2.png')}}"></a>
+                <a href="#"><img alt="" src="{{URL::asset('img/2.png')}}"></a>
             </div>
             <div class="span2">
-                <a href="#"><img alt="" src="{{ URL::asset('img/3.png')}}"></a>
+                <a href="#"><img alt="" src="{{URL::asset('img/3.png')}}"></a>
             </div>
             <div class="span2">
-                <a href="#"><img alt="" src="{{ URL::asset('img/4.png')}}"></a>
+                <a href="#"><img alt="" src="{{URL::asset('img/4.png')}}"></a>
             </div>
             <div class="span2">
-                <a href="#"><img alt="" src="{{ URL::asset('img/5.png')}}"></a>
+                <a href="#"><img alt="" src="{{URL::asset('img/5.png')}}"></a>
             </div>
             <div class="span2">
-                <a href="#"><img alt="" src="{{ URL::asset('img/6.png')}}"></a>
+                <a href="#"><img alt="" src="{{URL::asset('img/6.png')}}"></a>
             </div>
         </div>
     </section>

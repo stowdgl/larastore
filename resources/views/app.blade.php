@@ -40,13 +40,10 @@ Lower Header Section
                 <div class="nav-collapse">
                     <ul class="nav">
                         <li class="active"><a href="/">Home	</a></li>
-                        <li class=""><a href="list-view.html">List View</a></li>
-                        <li class=""><a href="grid-view.html">Grid View</a></li>
-                        <li class=""><a href="three-col.html">Three Column</a></li>
-                        <li class=""><a href="four-col.html">Four Column</a></li>
+                        <li class=""><a href="/products">All products</a></li>
                         <li class=""><a href="https://sharij.net">Новости</a></li>
                     </ul>
-                    <form action="#" class="navbar-search pull-left" style="padding-top: 5px;">
+                    <form action="#" class="navbar-search pull-left" style="padding-top: 5px; margin-right: 10px;float: right;">
                         <input type="text" placeholder="Search" class="search-query span2">
                     </form>
 
@@ -160,7 +157,7 @@ Lower Header Section
                 <div class="row-fluid">
                     <ul class="thumbnails">
                         <?php $i = 0?>
-                        @foreach($products as $product)
+                        @foreach($new_products as $product)
                                 @if($i>2)
                                     @break
                                 @else
@@ -174,7 +171,9 @@ Lower Header Section
                                 <div class="caption cntr">
                                     <p>{{$product->title}}</p>
                                     <p><strong> @foreach($product->prices as $price){{$price['price']}}@endforeach</strong></p>
-                                    <h4><a class="shopBtn" href="#" title="add to cart"> Add to cart </a></h4>
+
+                                    <h4>@if($product->items_available==0) <a class="shopBtn" href="#" title=""> NOT AVAILABLE </a>@else<a class="shopBtn" href="#" title="add to cart">Add to cart</a> @endif</h4>
+
                                     <div class="actionList">
                                     </div>
                                     <br class="clr">
@@ -309,24 +308,4 @@ Lower Header Section
     </footer>
 </div><!-- /container -->
 
-<div class="copyright">
-    <div class="container">
-        <p class="pull-right">
-            <a href="#"><img src="{{ URL::asset('img/maestro.png')}}" alt="payment"></a>
-            <a href="#"><img src="{{ URL::asset('img/mc.png')}}" alt="payment"></a>
-            <a href="#"><img src="{{ URL::asset('img/pp.png')}}" alt="payment"></a>
-            <a href="#"><img src="{{ URL::asset('img/visa.png')}}" alt="payment"></a>
-            <a href="#"><img src="{{ URL::asset('img/disc.png')}}" alt="payment"></a>
-        </p>
-        <span>Copyright &copy; 2019<br> bootstrap ecommerce shopping template</span>
-    </div>
-</div>
-<a href="#" class="gotop"><i class="icon-double-angle-up"></i></a>
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="{{ URL::asset('js/jquery.js')}}"></script>
-<script src="{{ URL::asset('js/bootstrap.min.js')}}"></script>
-<script src="{{ URL::asset('js/jquery.easing-1.3.min.js')}}"></script>
-<script src="{{ URL::asset('js/jquery.scrollTo-1.4.3.1-min.js')}}"></script>
-<script src="{{ URL::asset('js/shop.js')}}"></script>
-</body>
-</html>
+@extends('layouts.footer')

@@ -17,9 +17,11 @@ Auth::routes();
 })->name('done');*/
 Route::get('/', 'ProductController@index')->name('home');
 Route::get('/product/{id}', 'ProductController@show')->where('id','[0-9]+')->name('details');
+Route::get('/products', 'ProductController@grid')->name('grid');
 Route::get('/register', 'RegistrationController@create')->name('reg');
 Route::post('/register', 'RegistrationController@store');
 Route::get('/login', 'LoginController@create')->name('login');
 Route::post('/login', 'LoginController@store')->name('doLogin');
 Route::get('/logout', 'LoginController@destroy')->name('logout');
 Route::get('/category/{id}','CategoryController@index')->name('category');
+Route::post('/addtocart', 'CartController@add')->name('addtocart');
