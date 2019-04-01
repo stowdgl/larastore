@@ -1,4 +1,4 @@
-
+<?php phpinfo();?>
 @extends('layouts.header')
 
 <!--
@@ -43,8 +43,8 @@ Lower Header Section
                         <li class=""><a href="/products">All products</a></li>
                         <li class=""><a href="https://sharij.net">Новости</a></li>
                     </ul>
-                    <form action="#" class="navbar-search pull-left" style="padding-top: 5px; margin-right: 10px;float: right;">
-                        <input type="text" placeholder="Search" class="search-query span2">
+                    <form action="/search" class="navbar-search pull-left" style="padding-top: 5px; margin-right: 10px;float: right;" method="get">
+                        <input type="text" placeholder="Search" name="search" class="search-query span2">
                     </form>
 
                 </div>
@@ -62,7 +62,7 @@ Lower Header Section
                     <li><a href="category/{{$category->id}}"><span class="icon-chevron-right"></span>{{$category->title}}</a></li>
                     @endforeach
                     <li style="border:0"> &nbsp;</li>
-                    <li> <a class="totalInCart" href="cart.html"><strong>Total Amount  <span class="badge badge-warning pull-right" style="line-height:18px;">$448.42</span></strong></a></li>
+                    <li> <a class="totalInCart" href="/cart"><strong>Total Amount  <span class="badge badge-warning pull-right" style="line-height:18px;"></span></strong></a></li>
                 </ul>
             </div>
 
@@ -74,39 +74,27 @@ Lower Header Section
             </div>
             <div class="well well-small" ><a href="#"><img src="{{ URL::asset('img/paypal.jpg')}}" alt="payment method paypal"></a></div>
 
-            <a class="shopBtn btn-block" href="#">Upcoming products <br><small>Click to view</small></a>
+            <a class="shopBtn btn-block" href="#">Upcoming products <br></a>
             <br>
             <br>
             <ul class="nav nav-list promowrapper">
+                <?php $i=0;?>
+                @foreach($products as $product)
+                    @if($product->items_available==0&&$i<5)
                 <li>
                     <div class="thumbnail">
-                        <a class="zoomTool" href="/details" title="add to cart"><span class="icon-search"></span> QUICK VIEW</a>
-                        <img src="{{ URL::asset('img/bootstrap-ecommerce-templates.png')}}" alt="bootstrap ecommerce templates">
+                        <a class="zoomTool" href="/product/{{$product->id}}" title="add to cart"><span class="icon-search"></span> QUICK VIEW</a>
+                        <img src="{{ URL::asset($product->product_img)}}" alt="{{$product->title}}">
                         <div class="caption">
-                            <h4><a class="defaultBtn" href="/details">VIEW</a> <span class="pull-right">$22.00</span></h4>
+                            <h4>{{$product->title}}</h4>
+                            <h4><a class="defaultBtn" href="/product/{{$product->id}}">VIEW</a> <span class="pull-right">@foreach($product->prices as $price){{$price['price']}}@endforeach</span></h4>
                         </div>
                     </div>
                 </li>
                 <li style="border:0"> &nbsp;</li>
-                <li>
-                    <div class="thumbnail">
-                        <a class="zoomTool" href="/details" title="add to cart"><span class="icon-search"></span> QUICK VIEW</a>
-                        <img src="{{ URL::asset('img/shopping-cart-template.png')}}" alt="shopping cart template">
-                        <div class="caption">
-                            <h4><a class="defaultBtn" href="/details">VIEW</a> <span class="pull-right">$22.00</span></h4>
-                        </div>
-                    </div>
-                </li>
-                <li style="border:0"> &nbsp;</li>
-                <li>
-                    <div class="thumbnail">
-                        <a class="zoomTool" href="/details" title="add to cart"><span class="icon-search"></span> QUICK VIEW</a>
-                        <img src="{{ URL::asset('img/bootstrap-template.png')}}" alt="bootstrap template">
-                        <div class="caption">
-                            <h4><a class="defaultBtn" href="/details">VIEW</a> <span class="pull-right">$22.00</span></h4>
-                        </div>
-                    </div>
-                </li>
+                        <?php $i++; ?>
+                    @endif
+               @endforeach
             </ul>
 
         </div>
@@ -171,9 +159,11 @@ Lower Header Section
                                 <div class="caption cntr">
                                     <p>{{$product->title}}</p>
                                     <p><strong> @foreach($product->prices as $price){{$price['price']}}@endforeach</strong></p>
-
-                                    <h4>@if($product->items_available==0) <a class="shopBtn" href="#" title=""> NOT AVAILABLE </a>@else<a class="shopBtn" href="#" title="add to cart">Add to cart</a> @endif</h4>
-
+                                    <form action="/addtocart" method="post">
+                                        @csrf
+                                        <input type="hidden" value="{{$product->id}}" name="id">
+                                    <h4>@if($product->items_available==0) <button class="shopBtn" href="#" title="" style="background-color:#a39d9d;" disabled="disabled"> NOT AVAILABLE </button>@else<button type="submit" class="shopBtn" title="add to cart">Add to cart</button> @endif</h4>
+                                    </form>
                                     <div class="actionList">
                                     </div>
                                     <br class="clr">
@@ -247,24 +237,32 @@ Lower Header Section
         <h4 class="title cntr"><span class="text">Manufactures</span></h4>
         <hr class="soften"/>
         <div class="row">
+            <?php $i =0;
+                $imgs = [];
+                $manufacturer = [];
+                ?>
+            @foreach($products as $product)
+                <?php
+                        $imgs[] = $product->manufacturer_img;
+                        $manufacturer[] = $product->manufacturer;
+                    ?>
+                @endforeach
+                <?php
+                $imgs = array_unique($imgs);
+                $manufacturer = array_unique($manufacturer);
+                ?>
+                @foreach($imgs as $img)
+                    @if($i>6)
+                        @break;
+                        @endif
             <div class="span2">
-                <a href="#"><img alt="" src="{{ URL::asset('img/1.png')}}"></a>
+                 <form action="/product/{{lcfirst($manufacturer[$i])}}" method="post">
+                    @csrf
+                     <button type="submit" style="border:none;"><img alt="" src="{{ URL::asset($img)}}" style="width: 100%"></button>
+                </form>
             </div>
-            <div class="span2">
-                <a href="#"><img alt="" src="{{ URL::asset('img/2.png')}}"></a>
-            </div>
-            <div class="span2">
-                <a href="#"><img alt="" src="{{ URL::asset('img/3.png')}}"></a>
-            </div>
-            <div class="span2">
-                <a href="#"><img alt="" src="{{ URL::asset('img/4.png')}}"></a>
-            </div>
-            <div class="span2">
-                <a href="#"><img alt="" src="{{ URL::asset('img/5.png')}}"></a>
-            </div>
-            <div class="span2">
-                <a href="#"><img alt="" src="{{ URL::asset('img/6.png')}}"></a>
-            </div>
+                    <?php $i++;?>
+                @endforeach
         </div>
     </section>
 

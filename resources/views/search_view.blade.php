@@ -107,37 +107,31 @@ Lower Header Section
 
                 <div class="row-fluid">
                     <ul class="thumbnails">
-                @foreach($products as $product)
-                <?php $i++?>
+                        @foreach($prod as $product)
+                            <?php $i++?>
 
 
 
-                        <li class="span4">
-                            <div class="thumbnail">
-                                <a href="/product/{{$product->id}}" class="overlay"></a>
-                                <a class="zoomTool" href="/product/{{$product->id}}" title="add to cart"><span class="icon-search"></span> QUICK VIEW</a>
-                                <a href="/product/{{$product->id}}"><img src="{{URL::asset($product->product_img)}}" alt=""></a>
-                                <div class="caption cntr">
-                                    <p>{{$product->title}}</p>
-                                    <p><strong> @foreach($product->prices as $price){{$price['price']}}@endforeach</strong></p>
-                                    <form action="/addtocart" method="post">
-                                        @csrf
-                                        <input type="hidden" value="{{$product->id}}" name="id">
-                                        <h4>@if($product->items_available==0) <button class="shopBtn" href="#" title="" style="background-color:#a39d9d;" disabled="disabled"> NOT AVAILABLE </button>@else<button type="submit" class="shopBtn" title="add to cart">Add to cart</button> @endif</h4>
-                                    </form>
-                                    <div class="actionList">
+                            <li class="span4">
+                                <div class="thumbnail">
+                                    <a href="/product/{{$product->id}}" class="overlay"></a>
+                                    <a class="zoomTool" href="/product/{{$product->id}}" title="add to cart"><span class="icon-search"></span> QUICK VIEW</a>
+                                    <a href="/product/{{$product->id}}"><img src="{{URL::asset($product->product_img)}}" alt=""></a>
+                                    <div class="caption cntr">
+                                        <p>{{$product->title}}</p>
+                                        <p><strong> @foreach($product->prices as $price){{$price['price']}}@endforeach</strong></p>
+                                        <h4>@if($product->items_available==0) <a class="shopBtn" href="#" title=""> NOT AVAILABLE </a>@else<a class="shopBtn" href="#" title="add to cart">Add to cart</a> @endif</h4>
+                                        <div class="actionList">
+                                        </div>
+                                        <br class="clr">
                                     </div>
-                                    <br class="clr">
                                 </div>
-                            </div>
-                        </li>
+                            </li>
 
 
 
 
-
-
-              @endforeach
+                        @endforeach
                     </ul>
                 </div>
             </div>
@@ -155,7 +149,7 @@ Lower Header Section
             $imgs = [];
             $manufacturer = [];
             ?>
-            @foreach($products as $product)
+            @foreach($productss as $product)
                 <?php
                 $imgs[] = $product->manufacturer_img;
                 $manufacturer[] = $product->manufacturer;

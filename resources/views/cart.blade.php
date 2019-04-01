@@ -1,4 +1,6 @@
 @extends('layouts.header')
+
+
 <!--
 Lower Header Section
 -->
@@ -61,13 +63,13 @@ Lower Header Section
                 <li class="active">Check Out</li>
             </ul>
             <div class="well well-small">
-                <h1>Check Out <small class="pull-right"> 2 Items are in the cart </small></h1>
+                <h1>Check Out <small class="pull-right">@if($prodcount==1) {{$prodcount}} item @else {{$prodcount}} items @endif are in the cart </small></h1>
                 <hr class="soften"/>
 
                 <table class="table table-bordered table-condensed">
                     <thead>
                     <tr>
-                        <th>Product{{var_dump($ids)}}</th>
+                        <th>Product{{var_dump(@$del)}}</th>
                         <th>Description</th>
                         <th>Avail.</th>
                         <th>Unit price</th>
@@ -76,20 +78,48 @@ Lower Header Section
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td><img width="100" src="{{URL::asset('img/e.jpg')}}" alt=""></td>
-                        <td>Items name here<br>Carate : 22<br>Model : n/a</td>
-                        <td><span class="shopBtn" style="vertical-align: center;text-align: center"><span class="icon-ok"></span></span> </td>
-                        <td>$50.00</td>
-                        <td>
-                            <input class="span1" style="width: 100px;" placeholder="1" id="appendedInputButtons" size="16" type="number" min="1" max="10">
-                        </td>
-                        <td>$100.00</td>
-                    </tr>
+                    <?php $prod = [];?>
+                    @foreach($products as $product)
+                      <?php $prod[] = $product?>
+                        @endforeach
+                    <?php $prices = [];?>
+                    @foreach($prod as $item)
+                    @foreach($item as $i)
+                        <?php $pr = 0;
 
+                        ?>
+                        @foreach($i->prices as $price)<?php  $pr=$price['price']; $prices[] = $price['price'];?> @endforeach
+                    {{--{{var_dump($prod)}}--}}
+                    <tr>
+                        <td><img width="100" src="{{URL::asset($i->product_img)}}" alt=""></td>
+                        <td>{{$i->title}}<br><br></td>
+                        <td><span class="shopBtn" style="vertical-align: center;text-align: center"><span class="icon-ok"></span></span> </td>
+                        <td>@foreach($i->prices as $price){{'$'.$price['price']}}@endforeach  </td>
+                        <td>
+                            <form action="/cart" method="post">
+                                @csrf
+                            <input class="span1" name="qty" style="width: 100px;" placeholder="1" id="appendedInputButtons" size="16" type="number" min="1" max="{{$i->items_available}}">
+                            <input type="submit" class="shopBtn" value="Update">
+                            </form>
+                            <form action="/deletefromcart">
+                                <input type="hidden" value="{{$i->id}}" name="delid">
+                                <input type="submit" class="shopBtn" value="Delete">
+                            </form>
+                        </td>
+                        <td>
+                            @if(isset($_POST['qty']))
+                                {{'$'.(intval($pr)*intval($_POST['qty']))}}
+                                <?php unset($_POST['qty'])?>
+                                @else
+                                {{'$'.$pr}}
+                                @endif
+                        </td>
+                    </tr>
+@endforeach
+                    @endforeach
                     <tr>
                         <td colspan="6" class="alignR">Total products:	</td>
-                        <td> $448.42</td>
+                        <td> {{array_sum($prices)}}</td>
                     </tr>
                     </tbody>
                 </table><br/>
@@ -137,24 +167,32 @@ Lower Header Section
         <h4 class="title cntr"><span class="text">Manufactures</span></h4>
         <hr class="soften"/>
         <div class="row">
-            <div class="span2">
-                <a href="#"><img alt="" src="{{URL::asset('img/1.png')}}"></a>
-            </div>
-            <div class="span2">
-                <a href="#"><img alt="" src="{{URL::asset('img/2.png')}}"></a>
-            </div>
-            <div class="span2">
-                <a href="#"><img alt="" src="{{URL::asset('img/3.png')}}"></a>
-            </div>
-            <div class="span2">
-                <a href="#"><img alt="" src="{{URL::asset('img/4.png')}}"></a>
-            </div>
-            <div class="span2">
-                <a href="#"><img alt="" src="{{URL::asset('img/5.png')}}"></a>
-            </div>
-            <div class="span2">
-                <a href="#"><img alt="" src="{{URL::asset('img/6.png')}}"></a>
-            </div>
+            <?php $i =0;
+            $imgs = [];
+            $manufacturer = [];
+            ?>
+            @foreach($products1 as $product)
+                <?php
+                $imgs[] = $product->manufacturer_img;
+                $manufacturer[] = $product->manufacturer;
+                ?>
+            @endforeach
+            <?php
+            $imgs = array_unique($imgs);
+            $manufacturer = array_unique($manufacturer);
+            ?>
+            @foreach($imgs as $img)
+                @if($i>6)
+                    @break;
+                @endif
+                <div class="span2">
+                    <form action="/product/{{lcfirst($manufacturer[$i])}}" method="post">
+                        @csrf
+                        <button type="submit" style="border:none;"><img alt="" src="{{ URL::asset($img)}}" style="width: 100%"></button>
+                    </form>
+                </div>
+                <?php $i++;?>
+            @endforeach
         </div>
     </section>
 

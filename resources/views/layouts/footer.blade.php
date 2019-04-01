@@ -7,7 +7,7 @@
             <a href="#"><img src="{{ URL::asset('img/visa.png')}}" alt="payment"></a>
             <a href="#"><img src="{{ URL::asset('img/disc.png')}}" alt="payment"></a>
         </p>
-        <span>Copyright &copy; 2013<br> bootstrap ecommerce shopping template</span>
+        <span>Copyright &copy; 2019<br> Shop</span>
     </div>
 </div>
 <a href="#" class="gotop"><i class="icon-double-angle-up"></i></a>

@@ -80,7 +80,7 @@
 
 
                 <a href="contact.html"><span class="icon-envelope"></span> Contact us</a>
-                <a href="cart.html"><span class="icon-shopping-cart"></span> 2 Item(s) - <span class="badge badge-warning"> $448.42</span></a>
+                <a href="/cart"><span class="icon-shopping-cart"></span> {{$prodcount}} Item(s) - <span class="badge badge-warning"> $448.42</span></a>
             </div>
         </div>
     </div>

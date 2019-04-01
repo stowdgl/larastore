@@ -15,11 +15,21 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
+        $cart = $request->session()->get('cart');
+
+        $products = [];
+        if (isset($cart)) {
+            foreach ($cart as $item) {
+                $products[] = Products::with('categories', 'prices')->where('id', $item)->get();
+            }
+        }
+        $prodcount= count($products);
         //$products = Products::with('categories')->where('id',$request[''])->get();
-        $prices = Products::find($request['id'])->prices()->get();
+        $upProducts = Products::with('categories','prices')->orderBy('created_at')->get();
         $products =Categories::find($request['id'])->products()->get();
         $categories = Categories::with('products')->orderBy('title')->get();
-        return view('category_view',['products'=>$products,'categories'=>$categories]);
+        $prod = Products::with('categories','prices')->get();
+        return view('category_view',['products'=>$products,'categories'=>$categories,'upProducts'=>$upProducts,'prod'=>$prod,'prodcount'=>$prodcount]);
     }
 
     /**

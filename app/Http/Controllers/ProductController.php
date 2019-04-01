@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Products;
 use App\Categories;
 use Illuminate\Http\Request;
@@ -13,13 +12,23 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $cart = $request->session()->get('cart');
+
+        $products = [];
+        if (isset($cart)) {
+            foreach ($cart as $item) {
+                $products[] = Products::with('categories', 'prices')->where('id', $item)->get();
+            }
+        }
+        $prodcount= count($products);
         //
         $products= Products::with('categories','prices')->orderBy('created_at')->get();
         $newproducts = Products::with('categories','prices')->orderBy('created_at','desc')->take(3)->get();
         $categories = Categories::with('products')->orderBy('title')->get();
-        return view('app',['categories'=>$categories,'products'=>$products,'new_products'=>$newproducts]);
+
+        return view('app',['categories'=>$categories,'products'=>$products,'new_products'=>$newproducts,'prodcount'=>$prodcount]);
     }
 
     /**
@@ -42,10 +51,19 @@ class ProductController extends Controller
     {
         //
     }
-    public function grid(){
+    public function grid(Request $request){
+        $cart = $request->session()->get('cart');
+
+        $products = [];
+        if (isset($cart)) {
+            foreach ($cart as $item) {
+                $products[] = Products::with('categories', 'prices')->where('id', $item)->get();
+            }
+        }
+        $prodcount= count($products);
         $products= Products::with('categories','prices')->orderBy('created_at')->get();
         $categories = Categories::with('products')->orderBy('title')->get();
-        return view('grid_view',['categories'=>$categories,'products'=>$products]);
+        return view('grid_view',['categories'=>$categories,'products'=>$products,'prodcount'=>$prodcount]);
     }
     /**
      * Display the specified resource.
@@ -55,12 +73,30 @@ class ProductController extends Controller
      */
     public function show(Request $request)
     {
+        $cart = $request->session()->get('cart');
+
+        $products = [];
+        if (isset($cart)) {
+            foreach ($cart as $item) {
+                $products[] = Products::with('categories', 'prices')->where('id', $item)->get();
+            }
+        }
+        $prodcount= count($products);
+        $upProducts = Products::with('categories','prices')->orderBy('created_at')->get();
         $products =Products::with('prices')->where('id',$request['id'])->get();
+        $prod = Products::with('categories','prices')->get();
         $categories = Categories::with('products')->orderBy('title')->get();
         $relprod = Products::with('categories','prices')->take(5)->get();
-        return view('details',['categories'=>$categories,'products'=>$products,'relprod'=>$relprod]);
+        return view('details',['categories'=>$categories,'products'=>$products,'relprod'=>$relprod,'prod'=>$prod,'upProducts'=>$upProducts,'prodcount'=>$prodcount]);
     }
 
+    public function search(Request $request){
+        $productss= Products::with('categories','prices')->orderBy('created_at')->get();
+        $products= Products::with('categories','prices')->orderBy('created_at')->get();
+        $categories = Categories::with('products')->orderBy('title')->get();
+        $prod = Products::with('categories','prices')->where('title','LIKE',"%".htmlspecialchars($request['search'])."%")->orWhere('code','LIKE',"%".htmlspecialchars($request['search'])."%")->get();
+        return view('search_view',['products'=>$products,'categories'=>$categories,'prod'=>$prod,'productss'=>$productss]);
+    }
     /**
      * Show the form for editing the specified resource.
      *

@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use http\Cookie;
+use App\Products;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
     public function add(Request $request){
-        $ids = [];
-        $ids[] = $request['id'];
-       setcookie('items',$request['id'],60);
-        return view('cart',['ids'=>$ids]);
+
+       $request->session()->push('cart',$request['id']);
+       return redirect()->back();
     }
     /**
      * Display a listing of the resource.
@@ -21,6 +20,17 @@ class CartController extends Controller
     public function index(Request $request)
     {
 
+        $cart = $request->session()->get('cart');
+        $cart1 = var_dump($cart);
+        $products = [];
+        if (isset($cart)) {
+            foreach ($cart as $item) {
+                $products[] = Products::with('categories', 'prices')->where('id', $item)->get();
+            }
+        }
+        $prodcount= count($products);
+        $products1= Products::with('categories','prices')->orderBy('created_at')->get();
+        return view('cart',['cart'=>$cart,'products'=>$products,'prodcount'=>$prodcount,'cart1'=>$cart1,'products1'=>$products1]);
     }
 
     /**
@@ -84,8 +94,11 @@ class CartController extends Controller
      * @param  \App\Categories  $categories
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Categories $categories)
+    public function destroy(Request $request)
     {
-        //
+        $cart = $request->session()->get('cart');
+//redirect()->back()
+        $request->session()->forget('cart');
+        return redirect()->back();
     }
 }

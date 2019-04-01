@@ -7,8 +7,17 @@ use Illuminate\Http\Request;
 class LoginController extends Controller
 {
     //
-    public function create(){
-        return view('auth.login');
+    public function create(Request $request){
+        $cart = $request->session()->get('cart');
+
+        $products = [];
+        if (isset($cart)) {
+            foreach ($cart as $item) {
+                $products[] = Products::with('categories', 'prices')->where('id', $item)->get();
+            }
+        }
+        $prodcount= count($products);
+        return view('auth.login',['prodcount'=>$prodcount]);
     }
     public function store(Request $request){
         if (auth()->attempt(['email'=>$request['email'],'password'=>$request['pword']]) == false) {

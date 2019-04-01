@@ -40,8 +40,8 @@ Lower Header Section
                         <li class=""><a href="/products">All products</a></li>
                         <li class=""><a href="https://sharij.net">Новости</a></li>
                     </ul>
-                    <form action="#" class="navbar-search pull-left" style="padding-top: 5px; margin-right: 10px;float: right;">
-                        <input type="text" placeholder="Search" class="search-query span2" >
+                    <form action="/search" class="navbar-search pull-left" style="padding-top: 5px; margin-right: 10px;float: right;" method="get">
+                        <input type="text" placeholder="Search" name="search" class="search-query span2">
                     </form>
                 </div>
             </div>
@@ -74,35 +74,23 @@ Lower Header Section
             <br>
             <br>
             <ul class="nav nav-list promowrapper">
-                <li>
-                    <div class="thumbnail">
-                        <a class="zoomTool" href="product_details.html" title="add to cart"><span class="icon-search"></span> QUICK VIEW</a>
-                        <img src="{{ URL::asset('img/bootstrap-ecommerce-templates.png')}}" alt="bootstrap ecommerce templates">
-                        <div class="caption">
-                            <h4><a class="defaultBtn" href="product_details.html">VIEW</a> <span class="pull-right">$22.00</span></h4>
-                        </div>
-                    </div>
-                </li>
-                <li style="border:0"> &nbsp;</li>
-                <li>
-                    <div class="thumbnail">
-                        <a class="zoomTool" href="product_details.html" title="add to cart"><span class="icon-search"></span> QUICK VIEW</a>
-                        <img src="{{ URL::asset('img/shopping-cart-template.png')}}" alt="shopping cart template">
-                        <div class="caption">
-                            <h4><a class="defaultBtn" href="product_details.html">VIEW</a> <span class="pull-right">$22.00</span></h4>
-                        </div>
-                    </div>
-                </li>
-                <li style="border:0"> &nbsp;</li>
-                <li>
-                    <div class="thumbnail">
-                        <a class="zoomTool" href="product_details.html" title="add to cart"><span class="icon-search"></span> QUICK VIEW</a>
-                        <img src="{{ URL::asset('img/bootstrap-template.png')}}" alt="bootstrap template">
-                        <div class="caption">
-                            <h4><a class="defaultBtn" href="product_details.html">VIEW</a> <span class="pull-right">$22.00</span></h4>
-                        </div>
-                    </div>
-                </li>
+                <?php $i=0;?>
+                @foreach($upProducts as $product)
+                    @if($product->items_available==0&&$i<5)
+                        <li>
+                            <div class="thumbnail">
+                                <a class="zoomTool" href="/product/{{$product->id}}" title="add to cart"><span class="icon-search"></span> QUICK VIEW</a>
+                                <img src="{{ URL::asset($product->product_img)}}" alt="{{$product->title}}">
+                                <div class="caption">
+                                    <h4>{{$product->title}}</h4>
+                                    <h4><a class="defaultBtn" href="/product/{{$product->id}}">VIEW</a> <span class="pull-right">@foreach($product->prices as $price){{$price['price']}}@endforeach</span></h4>
+                                </div>
+                            </div>
+                        </li>
+                        <li style="border:0"> &nbsp;</li>
+                        <?php $i++; ?>
+                    @endif
+                @endforeach
             </ul>
 
         </div>
@@ -148,24 +136,32 @@ Lower Header Section
         <h4 class="title cntr"><span class="text">Manufactures</span></h4>
         <hr class="soften"/>
         <div class="row">
-            <div class="span2">
-                <a href="#"><img alt="" src="{{ URL::asset('img/1.png')}}"></a>
-            </div>
-            <div class="span2">
-                <a href="#"><img alt="" src="{{ URL::asset('img/2.png')}}"></a>
-            </div>
-            <div class="span2">
-                <a href="#"><img alt="" src="{{ URL::asset('img/3.png')}}"></a>
-            </div>
-            <div class="span2">
-                <a href="#"><img alt="" src="{{ URL::asset('img/4.png')}}"></a>
-            </div>
-            <div class="span2">
-                <a href="#"><img alt="" src="{{ URL::asset('img/5.png')}}"></a>
-            </div>
-            <div class="span2">
-                <a href="#"><img alt="" src="{{ URL::asset('img/6.png')}}"></a>
-            </div>
+            <?php $i =0;
+            $imgs = [];
+            $manufacturer = [];
+            ?>
+            @foreach($prod as $product)
+                <?php
+                $imgs[] = $product->manufacturer_img;
+                $manufacturer[] = $product->manufacturer;
+                ?>
+            @endforeach
+            <?php
+            $imgs = array_unique($imgs);
+            $manufacturer = array_unique($manufacturer);
+            ?>
+            @foreach($imgs as $img)
+                @if($i>6)
+                    @break;
+                @endif
+                <div class="span2">
+                    <form action="/product/{{lcfirst($manufacturer[$i])}}" method="post">
+                        @csrf
+                        <button type="submit" style="border:none;"><img alt="" src="{{ URL::asset($img)}}" style="width: 100%"></button>
+                    </form>
+                </div>
+                <?php $i++;?>
+            @endforeach
         </div>
     </section>
 

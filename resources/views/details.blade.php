@@ -1,4 +1,5 @@
 @extends('layouts.header')
+
 <!--
 Lower Header Section
 -->
@@ -40,8 +41,8 @@ Lower Header Section
                         <li class=""><a href="/products">All products</a></li>
                         <li class=""><a href="https://sharij.net">Новости</a></li>
                     </ul>
-                    <form action="#" class="navbar-search pull-left" style="padding-top: 5px; margin-right: 10px;float: right;">
-                        <input type="text" placeholder="Search" class="search-query span2">
+                    <form action="/search" class="navbar-search pull-left" style="padding-top: 5px; margin-right: 10px;float: right;" method="get">
+                        <input type="text" placeholder="Search" name="search" class="search-query span2">
                     </form>
                 </div>
             </div>
@@ -58,7 +59,7 @@ Lower Header Section
                         <li><a href="/category/{{$category->id}}"><span class="icon-chevron-right"></span>{{$category->title}}</a></li>
                     @endforeach
                     <li style="border:0"> &nbsp;</li>
-                    <li> <a class="totalInCart" href="cart.html"><strong>Total Amount  <span class="badge badge-warning pull-right" style="line-height:18px;">$448.42</span></strong></a></li>
+                    <li> <a class="totalInCart" href="/cart"><strong>Total Amount  <span class="badge badge-warning pull-right" style="line-height:18px;">$448.42</span></strong></a></li>
                 </ul>
             </div>
 
@@ -74,35 +75,23 @@ Lower Header Section
             <br>
             <br>
             <ul class="nav nav-list promowrapper">
-                <li>
-                    <div class="thumbnail">
-                        <a class="zoomTool" href="product_details.html" title="add to cart"><span class="icon-search"></span> QUICK VIEW</a>
-                        <img src="{{URL::asset('img/bootstrap-ecommerce-templates.png')}}" alt="bootstrap ecommerce templates">
-                        <div class="caption">
-                            <h4><a class="defaultBtn" href="product_details.html">VIEW</a> <span class="pull-right">$22.00</span></h4>
-                        </div>
-                    </div>
-                </li>
-                <li style="border:0"> &nbsp;</li>
-                <li>
-                    <div class="thumbnail">
-                        <a class="zoomTool" href="product_details.html" title="add to cart"><span class="icon-search"></span> QUICK VIEW</a>
-                        <img src="{{URL::asset('img/shopping-cart-template.png')}}" alt="shopping cart template">
-                        <div class="caption">
-                            <h4><a class="defaultBtn" href="product_details.html">VIEW</a> <span class="pull-right">$22.00</span></h4>
-                        </div>
-                    </div>
-                </li>
-                <li style="border:0"> &nbsp;</li>
-                <li>
-                    <div class="thumbnail">
-                        <a class="zoomTool" href="product_details.html" title="add to cart"><span class="icon-search"></span> QUICK VIEW</a>
-                        <img src="{{URL::asset('img/bootstrap-template.png')}}" alt="bootstrap template">
-                        <div class="caption">
-                            <h4><a class="defaultBtn" href="product_details.html">VIEW</a> <span class="pull-right">$22.00</span></h4>
-                        </div>
-                    </div>
-                </li>
+                <?php $i=0;?>
+                @foreach($prod as $product)
+                    @if($product->items_available==0&&$i<5)
+                        <li>
+                            <div class="thumbnail">
+                                <a class="zoomTool" href="/product/{{$product->id}}" title="add to cart"><span class="icon-search"></span> QUICK VIEW</a>
+                                <img src="{{ URL::asset($product->product_img)}}" alt="{{$product->title}}">
+                                <div class="caption">
+                                    <h4>{{$product->title}}</h4>
+                                    <h4><a class="defaultBtn" href="/product/{{$product->id}}">VIEW</a> <span class="pull-right">@foreach($product->prices as $price){{$price['price']}}@endforeach</span></h4>
+                                </div>
+                            </div>
+                        </li>
+                        <li style="border:0"> &nbsp;</li>
+                        <?php $i++; ?>
+                    @endif
+                @endforeach
             </ul>
 
         </div>
@@ -167,7 +156,13 @@ Lower Header Section
                                 Nowadays the lingerie industry is one of ...
                             <p>
                                 <input type="hidden" value="{{$product->id}}" name="id">
+                                @foreach($products as $product)
+                                    @if($product->items_available==0)
+                                        <button type="submit" class="shopBtn" disabled="disabled" style="background-color:#a39d9d;"><span class=" icon-shopping-cart"></span> NOT AVAILABLE</button>
+                                        @else
                                 <button type="submit" class="shopBtn"><span class=" icon-shopping-cart"></span> Add to cart</button>
+                            @endif
+                            @endforeach
                         </form>
                     </div>
                 </div>
@@ -191,7 +186,7 @@ Lower Header Section
                         <table class="table table-striped">
                             <tbody>
                             @foreach($products as $product)
-                            <tr class="techSpecRow"><td class="techSpecTD1">{{($product->specifications)}}</td><td class="techSpecTD2">Black</td></tr>
+                            <tr class="techSpecRow"><td class="techSpecTD1">@foreach(json_decode($product->specifications) as $key=>$spec){{$key.': '.$spec}}<br>@endforeach</td></tr>
                                 @endforeach
                             </tbody>
                         </table>
@@ -225,7 +220,7 @@ Lower Header Section
                             </div>
                             <div class="span4 alignR">
                                 <form class="form-horizontal qtyFrm">
-                                    <h3>@foreach($products[0]->prices as $product){{$product['price']}}@endforeach</h3>
+                                    <h3>@foreach($products[0]->prices as $product){{'$'.$product['price']}}@endforeach</h3>
                                     <br>
                                     <div class="btn-group">
                                         <form action="/addtocart">
@@ -418,24 +413,32 @@ Lower Header Section
         <h4 class="title cntr"><span class="text">Manufactures</span></h4>
         <hr class="soften"/>
         <div class="row">
-            <div class="span2">
-                <a href="#"><img alt="" src="{{URL::asset('img/1.png')}}"></a>
-            </div>
-            <div class="span2">
-                <a href="#"><img alt="" src="{{URL::asset('img/2.png')}}"></a>
-            </div>
-            <div class="span2">
-                <a href="#"><img alt="" src="{{URL::asset('img/3.png')}}"></a>
-            </div>
-            <div class="span2">
-                <a href="#"><img alt="" src="{{URL::asset('img/4.png')}}"></a>
-            </div>
-            <div class="span2">
-                <a href="#"><img alt="" src="{{URL::asset('img/5.png')}}"></a>
-            </div>
-            <div class="span2">
-                <a href="#"><img alt="" src="{{URL::asset('img/6.png')}}"></a>
-            </div>
+            <?php $i =0;
+            $imgs = [];
+            $manufacturer = [];
+            ?>
+            @foreach($prod as $product)
+                <?php
+                $imgs[] = $product->manufacturer_img;
+                $manufacturer[] = $product->manufacturer;
+                ?>
+            @endforeach
+            <?php
+            $imgs = array_unique($imgs);
+            $manufacturer = array_unique($manufacturer);
+            ?>
+            @foreach($imgs as $img)
+                @if($i>6)
+                    @break;
+                @endif
+                <div class="span2">
+                    <form action="/product/{{lcfirst($manufacturer[$i])}}" method="post">
+                        @csrf
+                        <button type="submit" style="border:none;"><img alt="" src="{{ URL::asset($img)}}" style="width: 100%"></button>
+                    </form>
+                </div>
+                <?php $i++;?>
+            @endforeach
         </div>
     </section>
 
