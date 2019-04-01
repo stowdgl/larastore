@@ -1,4 +1,3 @@
-<?php phpinfo();?>
 @extends('layouts.header')
 
 <!--
