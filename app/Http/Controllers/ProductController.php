@@ -24,7 +24,7 @@ class ProductController extends Controller
         }
         $prodcount= count($products);
         //
-        $products= Products::with('categories','prices')->orderBy('created_at')->get();
+        $products= Products::with('categories','prices')->orderBy('created_at')->paginate(10);
         $newproducts = Products::with('categories','prices')->orderBy('created_at','desc')->take(3)->get();
         $categories = Categories::with('products')->orderBy('title')->get();
 

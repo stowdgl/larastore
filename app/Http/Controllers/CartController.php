@@ -54,14 +54,17 @@ class CartController extends Controller
     public function store(Request $request)
     {
         $cart = $request->session()->get('cart');
-       /* $this->validate(request(),[
+
+
+
+       $this->validate(request(),[
             'fio'=>'required',
             'city'=>'required',
             'email'=>'required|email',
             'npo'=>'required',
             'phone'=>'required',
             'paymentmeth'=>'required'
-        ]);*/
+        ]);
         $fio=htmlspecialchars($request['fio']);
         $city=htmlspecialchars($request['city']);
         $email=htmlspecialchars($request['email']);

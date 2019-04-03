@@ -142,6 +142,7 @@ Lower Header Section
                 </div>
             </div>
         </div>
+{{--        {{ $products->links() }}--}}
     </div>
     <!--
     Clients

@@ -100,12 +100,10 @@ Lower Header Section
                         <td><span class="shopBtn" style="vertical-align: center;text-align: center"><span class="icon-ok"></span></span> </td>
                         <td class="price">@foreach($i->prices as $price){{'$'.$price['price']}}@endforeach  </td>
                         <td>
-                            <form action="/cart" method="post">
-                                @csrf
-                                <input type="hidden" value="1" class="qtyh" name="cartqty">
-                            <input class="span1 cartqty" name="qty" style="width: 100px;"  size="16" type="number" min="1" max="{{$i->items_available}}" value="1" onchange="qtyproc()">
+                                <input type="hidden" value="1" class="qtyhid" name="cartqtyhid[]">
+                                <input class="span1 cartqty" name="qty" style="width: 100px;"  size="16" type="number" min="1" max="{{$i->items_available}}" value="1" onchange="qtyproc()">
 
-                            </form>
+
                             <form action="/deletefromcart">
                                 <input type="hidden" value="{{$i->id}}" name="delid">
                                 <input type="submit" class="shopBtn" value="Delete">
@@ -128,7 +126,7 @@ Lower Header Section
 
                 <table class="table table-bordered">
                     <tbody>
-                    <tr><td>ESTIMATE YOUR SHIPPING & TAXES</td></tr>
+                    <tr><td>Оформление заказа:</td></tr>
                     <tr>
                         <td>
                             <form class="form-horizontal" action="/checkout" method="post">

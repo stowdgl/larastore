@@ -22,19 +22,21 @@
         return '$'+text;
     }
     function qtyproc(){
+        var qtyh = document.querySelectorAll('input.qtyhid');
         var totprod = document.getElementById('totprod');
         var elem = document.querySelectorAll('input.cartqty');
         var td = document.querySelectorAll('td.totalproduct');
-
+var ids = document.querySelectorAll('input.ids');
         var price = document.querySelectorAll('td.price');
         var nprice = [];
+
         for (var j =0;j<price.length;j++){
             nprice.push(parseFloat((price[j].innerText).substr(1)) * elem[j].value);
         }
 
-
         for (var j = 0; j<td.length;j++){
             td[j].innerText = '$'+nprice[j];
+            qtyh[j].value = elem[j].value;
 
         }
         var totprice = 0;
@@ -42,4 +44,7 @@
             totprice+=nprice[j];
         }
         totprod.innerText = '$'+totprice;
+
+
+        //console.log(pridarr);
     }
