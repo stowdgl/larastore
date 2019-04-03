@@ -91,11 +91,20 @@ class ProductController extends Controller
     }
 
     public function search(Request $request){
+        $cart = $request->session()->get('cart');
+
+        $products = [];
+        if (isset($cart)) {
+            foreach ($cart as $item) {
+                $products[] = Products::with('categories', 'prices')->where('id', $item)->get();
+            }
+        }
+        $prodcount= count($products);
         $productss= Products::with('categories','prices')->orderBy('created_at')->get();
         $products= Products::with('categories','prices')->orderBy('created_at')->get();
         $categories = Categories::with('products')->orderBy('title')->get();
         $prod = Products::with('categories','prices')->where('title','LIKE',"%".htmlspecialchars($request['search'])."%")->orWhere('code','LIKE',"%".htmlspecialchars($request['search'])."%")->get();
-        return view('search_view',['products'=>$products,'categories'=>$categories,'prod'=>$prod,'productss'=>$productss]);
+        return view('search_view',['products'=>$products,'categories'=>$categories,'prod'=>$prod,'productss'=>$productss,'prodcount'=>$prodcount]);
     }
     /**
      * Show the form for editing the specified resource.
