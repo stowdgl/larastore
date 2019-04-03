@@ -2,14 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Categories;
 use Illuminate\Http\Request;
 use App\User;
+use App\Products;
 class RegistrationController extends Controller
 {
 
 
-    public function create(){
-        return view('auth.register');
+    public function create(Request $request){
+        $cart = $request->session()->get('cart');
+
+        $products = [];
+        if (isset($cart)) {
+            foreach ($cart as $item) {
+                $products[] = Products::with('categories', 'prices')->where('id', $item)->get();
+            }
+        }
+        $prodcount= count($products);
+        $categories = Categories::with('products')->orderBy('title')->get();
+        return view('auth.register',['prodcount'=>$prodcount,'categories'=>$categories]);
     }
     public function store(Request $request){
         $this->validate(request(),[

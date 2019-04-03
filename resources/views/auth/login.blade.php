@@ -12,7 +12,7 @@ Lower Header Section
             <div class="span4">
                 <h1>
                     <a class="logo" href="/"><span>Twitter Bootstrap ecommerce template</span>
-                        <img src="{{ URL::asset('img/logo-bootstrap-shoping-cart.png')}}" alt="Home">
+                        <img src="{{ URL::asset('img/logo-bootstrap-shoping-cart.png')}}" alt="Shop">
                     </a>
                 </h1>
             </div>
@@ -20,7 +20,7 @@ Lower Header Section
 
             </div>
             <div class="span4 alignR">
-                <p><br> <strong> Support (24/7) :  0800 1234 678 </strong><br><br></p>
+                <p><br> <strong> Support (24/7) :  +380992270031 </strong><br><br></p>
             </div>
         </div>
     </header>
@@ -38,11 +38,8 @@ Lower Header Section
                 <div class="nav-collapse">
                     <ul class="nav">
                         <li class="active"><a href="/">Home	</a></li>
-                        <li class=""><a href="list-view.html">List View</a></li>
-                        <li class=""><a href="grid-view.html">Grid View</a></li>
-                        <li class=""><a href="three-col.html">Three Column</a></li>
-                        <li class=""><a href="four-col.html">Four Column</a></li>
-                        <li class=""><a href="general.html">General Content</a></li>
+                        <li class=""><a href="/products">All products</a></li>
+                        <li class=""><a href="https://sharij.net">Новости</a></li>
                     </ul>
                     <form action="#" class="navbar-search pull-left" style="padding-top: 5px;">
                         <input type="text" placeholder="Search" class="search-query span2">
@@ -61,16 +58,9 @@ Lower Header Section
         <div id="sidebar" class="span3">
             <div class="well well-small">
                 <ul class="nav nav-list">
-                    <li><a href="products.html"><span class="icon-chevron-right"></span>Fashion</a></li>
-                    <li><a href="products.html"><span class="icon-chevron-right"></span>Watches</a></li>
-                    <li><a href="products.html"><span class="icon-chevron-right"></span>Fine Jewelry</a></li>
-                    <li><a href="products.html"><span class="icon-chevron-right"></span>Fashion Jewelry</a></li>
-                    <li><a href="products.html"><span class="icon-chevron-right"></span>Engagement & Wedding</a></li>
-                    <li><a href="products.html"><span class="icon-chevron-right"></span>Men's Jewelry</a></li>
-                    <li><a href="products.html"><span class="icon-chevron-right"></span>Vintage & Antique</a></li>
-                    <li><a href="products.html"><span class="icon-chevron-right"></span>Loose Diamonds </a></li>
-                    <li><a href="products.html"><span class="icon-chevron-right"></span>Loose Beads</a></li>
-                    <li><a href="products.html"><span class="icon-chevron-right"></span>See All Jewelry & Watches</a></li>
+                    @foreach($categories as $category)
+                        <li><a href="/category/{{$category->id}}"><span class="icon-chevron-right"></span>{{$category->title}}</a></li>
+                    @endforeach
                     <li style="border:0"> &nbsp;</li>
                     <li> <a class="totalInCart" href="cart.html"><strong>Total Amount  <span class="badge badge-warning pull-right" style="line-height:18px;">$448.42</span></strong></a></li>
                 </ul>

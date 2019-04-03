@@ -1,172 +1,4 @@
-{{--@extends('layouts.app')
-
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Register') }}</div>
-
-                <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
-                        @csrf
-
-                        <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" required autofocus>
-
-                                @if ($errors->has('name'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required>
-
-                                @if ($errors->has('email'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
-
-                                @if ($errors->has('password'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Register') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-@endsection--}}
-
-
-        <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>{{env('APP_NAME')}}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <!-- Bootstrap styles -->
-    <link href="{{ URL::asset('css/bootstrap.css')}}" rel="stylesheet"/>
-    <!-- Customize styles -->
-    <link href="{{ URL::asset('css/style.css')}}" rel="stylesheet"/>
-    <!-- font awesome styles -->
-    <link href="{{ URL::asset('font-awesome/css/font-awesome.css')}}" rel="stylesheet">
-    <!--[if IE 7]>
-    <link href="{{ URL::asset('css/font-awesome-ie7.min.css')}}" rel="stylesheet">
-    <![endif]-->
-
-    <!--[if lt IE 9]>
-    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
-    <!-- Favicons -->
-    <link rel="shortcut icon" href="{{ URL::asset('ico/favicon.ico')}}">
-</head>
-<body>
-<!--
-	Upper Header Section
--->
-@if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-<div class="navbar navbar-inverse navbar-fixed-top">
-    <div class="topNav">
-        <div class="container">
-            <div class="alignR">
-                <div class="pull-left socialNw">
-                    <a href="#"><span class="icon-twitter"></span></a>
-                    <a href="#"><span class="icon-facebook"></span></a>
-                    <a href="#"><span class="icon-youtube"></span></a>
-                    <a href="#"><span class="icon-tumblr"></span></a>
-                </div>
-                <a href="/"> <span class="icon-home"></span> Home</a>
-                @guest
-
-
-                    @if (Route::has('login'))
-
-                        <a href="{{ route('login') }}"><span class="icon-user">{{ __('Sign In') }}</span></a>
-
-                    @endif
-                    @if (Route::has('/register'))
-
-                        <a href="{{ route('/register') }}"><span class="icon-user">{{ __('Sign Up') }}</span></a>
-
-                    @endif
-                @else
-                    <span class="icon-user">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                  <span class="icon-user">{{ Auth::user()->name }} </span> <span class="caret"></span>
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                          style="display: none;">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </span>
-                @endguest
-                <a href="contact.html"><span class="icon-envelope"></span> Contact us</a>
-                <a href="cart.html"><span class="icon-shopping-cart"></span> 2 Item(s) - <span
-                            class="badge badge-warning"> $448.42</span></a>
-            </div>
-        </div>
-    </div>
-</div>
+@include('layouts.header')
 
 <!--
 Lower Header Section
@@ -178,7 +10,7 @@ Lower Header Section
             <div class="span4">
                 <h1>
                     <a class="logo" href="/"><span>Twitter Bootstrap ecommerce template</span>
-                        <img src="{{ URL::asset('img/logo-bootstrap-shoping-cart.png')}}" alt="bootstrap sexy shop">
+                        <img src="{{ URL::asset('img/logo-bootstrap-shoping-cart.png')}}" alt="Shop">
                     </a>
                 </h1>
             </div>
@@ -186,7 +18,7 @@ Lower Header Section
 
             </div>
             <div class="span4 alignR">
-                <p><br> <strong> Support (24/7) : 0800 1234 678 </strong><br><br></p>
+                <p><br> <strong> Support (24/7) : +380992270031 </strong><br><br></p>
 
             </div>
         </div>
@@ -205,12 +37,9 @@ Lower Header Section
                 </a>
                 <div class="nav-collapse">
                     <ul class="nav">
-                        <li class=""><a href="/">Home </a></li>
-                        <li class=""><a href="list-view.html">List View</a></li>
-                        <li class=""><a href="grid-view.html">Grid View</a></li>
-                        <li class=""><a href="three-col.html">Three Column</a></li>
-                        <li class=""><a href="four-col.html">Four Column</a></li>
-                        <li class=""><a href="general.html">General Content</a></li>
+                        <li class="active"><a href="/">Home	</a></li>
+                        <li class=""><a href="/products">All products</a></li>
+                        <li class=""><a href="https://sharij.net">Новости</a></li>
                     </ul>
                     <form action="#" class="navbar-search pull-left">
                         <input type="text" placeholder="Search" class="search-query span2">
@@ -229,17 +58,9 @@ Lower Header Section
         <div id="sidebar" class="span3">
             <div class="well well-small">
                 <ul class="nav nav-list">
-                    <li><a href="products.html"><span class="icon-chevron-right"></span>Fashion</a></li>
-                    <li><a href="products.html"><span class="icon-chevron-right"></span>Watches</a></li>
-                    <li><a href="products.html"><span class="icon-chevron-right"></span>Fine Jewelry</a></li>
-                    <li><a href="products.html"><span class="icon-chevron-right"></span>Fashion Jewelry</a></li>
-                    <li><a href="products.html"><span class="icon-chevron-right"></span>Engagement & Wedding</a></li>
-                    <li><a href="products.html"><span class="icon-chevron-right"></span>Men's Jewelry</a></li>
-                    <li><a href="products.html"><span class="icon-chevron-right"></span>Vintage & Antique</a></li>
-                    <li><a href="products.html"><span class="icon-chevron-right"></span>Loose Diamonds </a></li>
-                    <li><a href="products.html"><span class="icon-chevron-right"></span>Loose Beads</a></li>
-                    <li><a href="products.html"><span class="icon-chevron-right"></span>See All Jewelry & Watches</a>
-                    </li>
+                    @foreach($categories as $category)
+                        <li><a href="/category/{{$category->id}}"><span class="icon-chevron-right"></span>{{$category->title}}</a></li>
+                    @endforeach
                     <li style="border:0"> </li>
                     <li><a class="totalInCart" href="cart.html"><strong>Total Amount <span
                                         class="badge badge-warning pull-right" style="line-height:18px;">$448.42</span></strong></a>

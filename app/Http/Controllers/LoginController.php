@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Categories;
 use Illuminate\Http\Request;
 use App\Products;
 class LoginController extends Controller
@@ -17,7 +18,8 @@ class LoginController extends Controller
             }
         }
         $prodcount= count($products);
-        return view('auth.login',['prodcount'=>$prodcount]);
+        $categories = Categories::with('products')->orderBy('title')->get();
+        return view('auth.login',['prodcount'=>$prodcount, 'categories'=>$categories]);
     }
     public function store(Request $request){
         if (auth()->attempt(['email'=>$request['email'],'password'=>$request['pword']]) == false) {
