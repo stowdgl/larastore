@@ -11,7 +11,7 @@
 |
 */
 
-Auth::routes();
+;
 /*Route::get('/', function () {
     return view('app');
 })->name('done');*/
@@ -33,3 +33,4 @@ Route::post('/cart','CartController@index')->name('showcart');
 Route::get('/deletefromcart','CartController@destroy')->name('deletefromcart');
 Route::post('/dashboard/createcat','AdminController@store')->name('createcat');
 Route::get('/dashboard','AdminController@index')->name('dashboard');
+Route::post('/checkout','CartController@store')->name('saveorder');

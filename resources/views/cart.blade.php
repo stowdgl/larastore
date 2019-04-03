@@ -69,7 +69,7 @@ Lower Header Section
                 <table class="table table-bordered table-condensed">
                     <thead>
                     <tr>
-                        <th>Product{{var_dump(@$del)}}</th>
+                        <th>Product</th>
                         <th>Description</th>
                         <th>Avail.</th>
                         <th>Unit price</th>
@@ -78,6 +78,7 @@ Lower Header Section
                     </tr>
                     </thead>
                     <tbody>
+                    <script>var i =0;</script>
                     <?php $prod = [];?>
                     @foreach($products as $product)
                       <?php $prod[] = $product?>
@@ -88,38 +89,39 @@ Lower Header Section
                         <?php $pr = 0;
 
                         ?>
+                       <script>i++;</script>
                         @foreach($i->prices as $price)<?php  $pr=$price['price']; $prices[] = $price['price'];?> @endforeach
                     {{--{{var_dump($prod)}}--}}
+
                     <tr>
+
                         <td><img width="100" src="{{URL::asset($i->product_img)}}" alt=""></td>
                         <td>{{$i->title}}<br><br></td>
                         <td><span class="shopBtn" style="vertical-align: center;text-align: center"><span class="icon-ok"></span></span> </td>
-                        <td>@foreach($i->prices as $price){{'$'.$price['price']}}@endforeach  </td>
+                        <td class="price">@foreach($i->prices as $price){{'$'.$price['price']}}@endforeach  </td>
                         <td>
                             <form action="/cart" method="post">
                                 @csrf
-                            <input class="span1" name="qty" style="width: 100px;" placeholder="1" id="appendedInputButtons" size="16" type="number" min="1" max="{{$i->items_available}}">
-                            <input type="submit" class="shopBtn" value="Update">
+                                <input type="hidden" value="1" class="qtyh" name="cartqty">
+                            <input class="span1 cartqty" name="qty" style="width: 100px;"  size="16" type="number" min="1" max="{{$i->items_available}}" value="1" onchange="qtyproc()">
+
                             </form>
                             <form action="/deletefromcart">
                                 <input type="hidden" value="{{$i->id}}" name="delid">
                                 <input type="submit" class="shopBtn" value="Delete">
                             </form>
                         </td>
-                        <td>
-                            @if(isset($_POST['qty']))
-                                {{'$'.(intval($pr)*intval($_POST['qty']))}}
-                                <?php unset($_POST['qty'])?>
-                                @else
-                                {{'$'.$pr}}
-                                @endif
+                        <td class="totalproduct">
+                            @foreach($i->prices as $price){{'$'.$price['price']}}@endforeach
+
                         </td>
                     </tr>
+
 @endforeach
                     @endforeach
                     <tr>
                         <td colspan="6" class="alignR">Total products:	</td>
-                        <td> {{array_sum($prices)}}</td>
+                        <td id="totprod"> {{'$'.array_sum($prices)}}</td>
                     </tr>
                     </tbody>
                 </table><br/>
@@ -129,24 +131,50 @@ Lower Header Section
                     <tr><td>ESTIMATE YOUR SHIPPING & TAXES</td></tr>
                     <tr>
                         <td>
-                            <form class="form-horizontal">
+                            <form class="form-horizontal" action="/checkout" method="post">
+                                @csrf
                                 <div class="control-group">
-                                    <label class="span2 control-label" for="inputEmail">Country</label>
+                                    <label class="span2 control-label" for="inputEmail">ФИО: </label>
                                     <div class="controls">
-                                        <input type="text" placeholder="Country">
+                                        <input type="text" placeholder="ФИО" name="fio" required>
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label class="span2 control-label" for="inputPassword">Post Code/ Zipcode</label>
+                                    <label class="span2 control-label" for="inputEmail">Город: </label>
                                     <div class="controls">
-                                        <input type="password" placeholder="Password">
+                                        <input type="text" placeholder="Город" name="city" required>
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="span2 control-label" for="inputEmail">Мобильный телефон: </label>
+                                    <div class="controls">
+                                        <input type="text" placeholder="Мобильный телефон" name="phone" required>
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="span2 control-label" for="inputEmail">Эл.почта: </label>
+                                    <div class="controls">
+                                        <input type="text" placeholder="Эл.почта" name="email" required>
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="span2 control-label" for="inputEmail">Номер отделения Новой Почты: </label>
+                                    <div class="controls">
+                                        <input type="text" placeholder="№ Новой Почты" name="npo" required>
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="span2 control-label" for="inputEmail">Оплата: </label>
+                                    <div class="controls">
+                                        <input type="text" placeholder="Оплата" name="paymentmeth" required>
                                     </div>
                                 </div>
                                 <div class="control-group">
                                     <div class="controls">
-                                        <button type="submit" class="shopBtn">Click to check the price</button>
+                                        <input type="submit" class="shopBtn" value="Заказ подтверждаю" name="submit">
                                     </div>
                                 </div>
+
                             </form>
                         </td>
                     </tr>
@@ -235,5 +263,7 @@ Lower Header Section
         </div>
     </footer>
 </div><!-- /container -->
+<script src="js/cart.js">
 
+</script>
 @extends('layouts.footer')

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Products;
+use App\Orders;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -21,7 +22,8 @@ class CartController extends Controller
     {
 
         $cart = $request->session()->get('cart');
-        $cart1 = var_dump($cart);
+        //$cart1 = var_dump($cart);
+        var_dump($cart);
         $products = [];
         if (isset($cart)) {
             foreach ($cart as $item) {
@@ -30,7 +32,7 @@ class CartController extends Controller
         }
         $prodcount= count($products);
         $products1= Products::with('categories','prices')->orderBy('created_at')->get();
-        return view('cart',['cart'=>$cart,'products'=>$products,'prodcount'=>$prodcount,'cart1'=>$cart1,'products1'=>$products1]);
+        return view('cart',['cart'=>$cart,'products'=>$products,'prodcount'=>$prodcount,'products1'=>$products1,'var'=>var_dump($cart)]);
     }
 
     /**
@@ -51,7 +53,38 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $cart = $request->session()->get('cart');
+       /* $this->validate(request(),[
+            'fio'=>'required',
+            'city'=>'required',
+            'email'=>'required|email',
+            'npo'=>'required',
+            'phone'=>'required',
+            'paymentmeth'=>'required'
+        ]);*/
+        $fio=htmlspecialchars($request['fio']);
+        $city=htmlspecialchars($request['city']);
+        $email=htmlspecialchars($request['email']);
+        $npo=htmlspecialchars($request['npo']);
+        $phone=htmlspecialchars($request['phone']);
+        $paymenmeth=htmlspecialchars($request['paymentmeth']);
+        $order = Orders::create([
+            'fio'=>$fio,
+            'email'=> $email,
+            'city'=>$city,
+            'phone'=>$phone,
+            'npo'=>$npo,
+            'paymentmeth'=>$paymenmeth
+        ]);
+
+        $orders = Orders::where('id',$order['id'])->first();
+
+        foreach ($cart as $item) {
+            $orders->products()->attach($item);
+        }
+       $request->session()->forget('cart');
+        //return view('completed-order',['order'=>$order['id'],'cart'=>$orders]);
+        return redirect('/');
     }
 
     /**
@@ -97,8 +130,20 @@ class CartController extends Controller
     public function destroy(Request $request)
     {
         $cart = $request->session()->get('cart');
-//redirect()->back()
+       // var_dump($cart);
         $request->session()->forget('cart');
-        return redirect()->back();
+        foreach ($cart as $key=>$item) {
+            if ($item==$request['delid']){
+
+
+            }else{
+                $request->session()->push('cart',$item);
+            }
+        }
+
+//redirect()->back()
+        //$request->session()->pull('cart',$request['delid']);
+     //   $request->session()->flash('cart');
+      return redirect('/cart');
     }
 }
