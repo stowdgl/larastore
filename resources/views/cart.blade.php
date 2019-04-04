@@ -80,7 +80,7 @@
 
 
                 <a href="contact.html"><span class="icon-envelope"></span> Contact us</a>
-                <a href="/cart"><span class="icon-shopping-cart"></span> {{$prodcount}} Item(s) - <span class="badge badge-warning"> $448.42</span></a>
+                <a href="/cart"><span class="icon-shopping-cart"></span> {{$prodcount}} Item(s)</a>
             </div>
         </div>
     </div>
@@ -106,7 +106,7 @@ Lower Header Section
 
             </div>
             <div class="span4 alignR">
-                <p><br> <strong> Support (24/7) :  +380992270031 </strong><br><br></p>
+                <p><br> <strong> Support (24/7) :  <a href="tel:{{env('SUPP_PHONE')}}">{{env('SUPP_PHONE')}} </a></strong><br><br></p>
                 <span class="btn btn-warning btn-mini">$</span>
             </div>
         </div>

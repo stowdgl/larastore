@@ -80,7 +80,7 @@
 
 
                 <a href="contact.html"><span class="icon-envelope"></span> Contact us</a>
-                <a href="/cart"><span class="icon-shopping-cart"></span> {{$prodcount}} Item(s) - <span class="badge badge-warning"> $448.42</span></a>
+                <a href="/cart"><span class="icon-shopping-cart"></span> {{$prodcount}} Item(s)</a>
             </div>
         </div>
     </div>
@@ -100,7 +100,7 @@
 
             </div>
             <div class="span4 alignR">
-                <p><br> <strong> Support (24/7) : +380992270031 </strong><br><br></p>
+                <p><br> <strong> Support (24/7) : <a href="tel:{{env('SUPP_PHONE')}}">{{env('SUPP_PHONE')}} </a></strong><br><br></p>
 
             </div>
         </div>
@@ -144,8 +144,7 @@
                         <li><a href="/category/{{$category->id}}"><span class="icon-chevron-right"></span>{{$category->title}}</a></li>
                     @endforeach
                     <li style="border:0"> </li>
-                    <li><a class="totalInCart" href="cart.html"><strong>Total Amount <span
-                                        class="badge badge-warning pull-right" style="line-height:18px;">$448.42</span></strong></a>
+                    <li><a class="totalInCart" href="/cart"></a>
                     </li>
                 </ul>
             </div>
@@ -160,7 +159,6 @@
                                                           alt="payment method paypal"></a></div>
 
             <a class="shopBtn btn-block" href="#">Upcoming products <br>
-                <small>Click to view</small>
             </a>
             <br>
             <br>

@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 use App\Products;
 use App\Categories;
 use Illuminate\Http\Request;
-
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 class ProductController extends Controller
 {
     /**
@@ -61,7 +62,7 @@ class ProductController extends Controller
             }
         }
         $prodcount= count($products);
-        $products= Products::with('categories','prices')->orderBy('created_at')->get();
+        $products= Products::with('categories','prices')->orderBy('created_at')->paginate(10);
         $categories = Categories::with('products')->orderBy('title')->get();
         return view('grid_view',['categories'=>$categories,'products'=>$products,'prodcount'=>$prodcount]);
     }

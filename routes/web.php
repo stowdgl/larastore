@@ -11,10 +11,6 @@
 |
 */
 
-;
-/*Route::get('/', function () {
-    return view('app');
-})->name('done');*/
 
 Route::get('/', 'ProductController@index')->name('home');
 Route::get('/search','ProductController@search')->name('search');
@@ -25,8 +21,8 @@ Route::get('/register', 'RegistrationController@create')->name('reg');
 Route::post('/register', 'RegistrationController@store');
 Route::get('/login', 'LoginController@create')->name('login');
 Route::post('/login', 'LoginController@store')->name('doLogin');
-Route::get('/logout', 'LoginController@destroy')->name('logout');
-Route::get('/category/{id}','CategoryController@index')->name('category');
+Route::post('/logout', 'LoginController@destroy')->name('logout');
+Route::get('/category/{id}','CategoryController@index')->where('id','[0-9]+')->name('category');
 Route::post('/addtocart', 'CartController@add')->name('addtocart');
 Route::get('/cart','CartController@index')->name('showcart');
 Route::post('/cart','CartController@index')->name('showcart');

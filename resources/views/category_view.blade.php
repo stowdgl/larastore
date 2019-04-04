@@ -23,7 +23,7 @@ Lower Header Section
                                     <p>{{$product->title}}</p>
 
                                     <p><strong> @foreach($product->prices as $price){{$price['price']}}@endforeach</strong></p>
-                                    <h4>@if($product->items_available==0) <a class="shopBtn" href="#" title=""> NOT AVAILABLE </a>@else<a class="shopBtn" href="#" title="add to cart">Add to cart</a> @endif</h4>
+                                    <h4>@if($product->items_available==0) <button class="shopBtn" href="#" title="" style="background-color:#a39d9d;" disabled="disabled"> NOT AVAILABLE </button>@else<button type="submit" class="shopBtn" title="add to cart">Add to cart</button> @endif</h4>
                                     <div class="actionList">
 
                                     </div>

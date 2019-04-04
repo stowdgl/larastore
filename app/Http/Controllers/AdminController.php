@@ -17,9 +17,11 @@ class AdminController extends Controller
                 $categories = Categories::with('products')->orderBy('title')->get();
                 return view('admin.dashboard',['categories'=>$categories]);
             }else{
+                abort(404);
                 return redirect()->back();
             }
         }else{
+            abort(404);
             return redirect()->back();
         }
 

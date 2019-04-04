@@ -7,7 +7,7 @@ Lower Header Section
         <div class="span9">
             <ul class="breadcrumb">
                 <li><a href="/">Home</a> <span class="divider">/</span></li>
-                <li><a href="products.html">Items</a> <span class="divider">/</span></li>
+                <li><a href="/products">Products</a> <span class="divider">/</span></li>
                 <li class="active">Preview</li>
             </ul>
             <div class="well well-small">
@@ -129,12 +129,12 @@ Lower Header Section
                             </div>
                             <div class="span4 alignR">
                                 <form class="form-horizontal qtyFrm">
-                                    <h3>@foreach($products[0]->prices as $product){{'$'.$product['price']}}@endforeach</h3>
+                                    <h3>@foreach($product->prices as $price){{'$'.$price['price']}}@endforeach</h3>
                                     <br>
                                     <div class="btn-group">
                                         <form action="/addtocart">
-                                            <input type="hidden" value="{{$product->id}}">
-                                            <button type="submit" class="shopBtn"><span class=" icon-shopping-cart"></span> Add to cart</button>
+                                            <input type="hidden" value="{{$product->id}}{{$product->items_available}}">
+                                           @if($product->items_available==0) <button class="shopBtn" href="#" title="" style="background-color:#a39d9d;" disabled="disabled"> NOT AVAILABLE </button>@else<button type="submit" class="shopBtn" title="add to cart"><span class="icon-shopping-cart"></span> Add to cart</button> @endif
                                         </form>
 
                                     </div>
