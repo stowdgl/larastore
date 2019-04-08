@@ -50,7 +50,7 @@ Lower Header Section
             $imgs = [];
             $manufacturer = [];
             ?>
-            @foreach($prod as $product)
+            @foreach($products as $product)
                 <?php
                 $imgs[] = $product->manufacturer_img;
                 $manufacturer[] = $product->manufacturer;
@@ -58,19 +58,24 @@ Lower Header Section
             @endforeach
             <?php
             $imgs = array_unique($imgs);
+            // $imgs = array_values($manufacturer);
             $manufacturer = array_unique($manufacturer);
-            ?>
+            $manufacturer = array_values($manufacturer);
+            $i=0; $j=0; $m = count($imgs)?>
             @foreach($imgs as $img)
                 @if($i>6)
                     @break;
                 @endif
                 <div class="span2">
-                    <form action="/product/{{lcfirst($manufacturer[$i])}}" method="post">
+
+                    <form action="/product/{{lcfirst($manufacturer[$j])}}" method="post">
                         @csrf
+
+
                         <button type="submit" style="border:none;"><img alt="" src="{{ URL::asset($img)}}" style="width: 100%"></button>
                     </form>
                 </div>
-                <?php $i++;?>
+                <?php $i++; $j++;?>
             @endforeach
         </div>
     </section>

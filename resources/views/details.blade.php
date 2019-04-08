@@ -10,7 +10,7 @@ Lower Header Section
                 <li><a href="/products">Products</a> <span class="divider">/</span></li>
                 <li class="active">Preview</li>
             </ul>
-            <div class="well well-small">
+             <div class="well well-small">
                 <div class="row-fluid">
                     <div class="span5">
                         <div id="myCarousel" class="carousel slide cntr">
@@ -32,7 +32,7 @@ Lower Header Section
                         <form class="form-horizontal qtyFrm" action="/addtocart" method="post">
                             @csrf
                             <div class="control-group">
-                                <label class="control-label"><span>@foreach($products[0]->prices as $product){{$product['price']}}@endforeach</span></label>
+                                <label class="control-label"><span>@foreach($products[0]->prices as $product){{'$'.$product['price']}}@endforeach</span></label>
                                 <div class="controls">
                                     <input type="number" class="span6" placeholder="Qty." min="1" max=@foreach($products as $product)"{{$product->items_available}}"@endforeach>
                                 </div>
@@ -326,7 +326,7 @@ Lower Header Section
             $imgs = [];
             $manufacturer = [];
             ?>
-            @foreach($prod as $product)
+            @foreach($allproducts as $product)
                 <?php
                 $imgs[] = $product->manufacturer_img;
                 $manufacturer[] = $product->manufacturer;
@@ -334,19 +334,24 @@ Lower Header Section
             @endforeach
             <?php
             $imgs = array_unique($imgs);
+            // $imgs = array_values($manufacturer);
             $manufacturer = array_unique($manufacturer);
-            ?>
+            $manufacturer = array_values($manufacturer);
+            $i=0; $j=0; $m = count($imgs)?>
             @foreach($imgs as $img)
                 @if($i>6)
                     @break;
                 @endif
                 <div class="span2">
-                    <form action="/product/{{lcfirst($manufacturer[$i])}}" method="post">
+
+                    <form action="/product/{{lcfirst($manufacturer[$j])}}" method="post">
                         @csrf
+
+
                         <button type="submit" style="border:none;"><img alt="" src="{{ URL::asset($img)}}" style="width: 100%"></button>
                     </form>
                 </div>
-                <?php $i++;?>
+                <?php $i++; $j++;?>
             @endforeach
         </div>
     </section>

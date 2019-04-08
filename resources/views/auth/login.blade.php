@@ -68,24 +68,37 @@ Lower Header Section
         <h4 class="title cntr"><span class="text">Manufactures</span></h4>
         <hr class="soften"/>
         <div class="row">
-            <div class="span2">
-                <a href="#"><img alt="" src="{{ URL::asset('img/1.png')}}"></a>
-            </div>
-            <div class="span2">
-                <a href="#"><img alt="" src="{{ URL::asset('img/2.png')}}"></a>
-            </div>
-            <div class="span2">
-                <a href="#"><img alt="" src="{{ URL::asset('img/3.png')}}"></a>
-            </div>
-            <div class="span2">
-                <a href="#"><img alt="" src="{{ URL::asset('img/4.png')}}"></a>
-            </div>
-            <div class="span2">
-                <a href="#"><img alt="" src="{{ URL::asset('img/5.png')}}"></a>
-            </div>
-            <div class="span2">
-                <a href="#"><img alt="" src="{{ URL::asset('img/6.png')}}"></a>
-            </div>
+            <?php $i =0;
+            $imgs = [];
+            $manufacturer = [];
+            ?>
+            @foreach($allproducts as $product)
+                <?php
+                $imgs[] = $product->manufacturer_img;
+                $manufacturer[] = $product->manufacturer;
+                ?>
+            @endforeach
+            <?php
+            $imgs = array_unique($imgs);
+            // $imgs = array_values($manufacturer);
+            $manufacturer = array_unique($manufacturer);
+            $manufacturer = array_values($manufacturer);
+            $i=0; $j=0; $m = count($imgs)?>
+            @foreach($imgs as $img)
+                @if($i>6)
+                    @break;
+                @endif
+                <div class="span2">
+
+                    <form action="/product/{{lcfirst($manufacturer[$j])}}" method="post">
+                        @csrf
+
+
+                        <button type="submit" style="border:none;"><img alt="" src="{{ URL::asset($img)}}" style="width: 100%"></button>
+                    </form>
+                </div>
+                <?php $i++; $j++;?>
+            @endforeach
         </div>
     </section>
 

@@ -88,7 +88,8 @@ class ProductController extends Controller
         $prod = Products::with('categories','prices')->get();
         $categories = Categories::with('products')->orderBy('title')->get();
         $relprod = Products::with('categories','prices')->take(5)->get();
-        return view('details',['categories'=>$categories,'products'=>$products,'relprod'=>$relprod,'prod'=>$prod,'upProducts'=>$upProducts,'prodcount'=>$prodcount]);
+        $allproducts= Products::with('categories','prices')->orderBy('created_at')->get();
+        return view('details',['categories'=>$categories,'products'=>$products,'relprod'=>$relprod,'prod'=>$prod,'upProducts'=>$upProducts,'prodcount'=>$prodcount,'allproducts'=>$allproducts]);
     }
 
     public function search(Request $request){
