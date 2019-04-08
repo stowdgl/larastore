@@ -61,7 +61,7 @@
                         </form>
                     </div>
 
-
+                    <a class="" href="/account"> <span class="icon-user"></span> My Account</a>
                 @else
                     <a class="" href="#"> <span class="icon-user"></span> My Account</a>
                     @if (Route::has('reg'))

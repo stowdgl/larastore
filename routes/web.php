@@ -30,5 +30,8 @@ Route::post('/cart','CartController@index')->name('showcart');
 Route::get('/deletefromcart','CartController@destroy')->name('deletefromcart');
 Route::post('/dashboard/createprod','AdminController@storeProd')->name('createcat');
 Route::post('/dashboard/createcat','AdminController@storeCat')->name('createcat');
+Route::post('/dashboard/delete/{id}','AdminController@deleteProd')->name('createcat');
+Route::post('/dashboard/modify/{id}','AdminController@modifyProd')->name('createcat');
+Route::get('/account','LoginController@account')->name('account');
 Route::get('/dashboard','AdminController@index')->name('dashboard');
 Route::post('/checkout','CartController@store')->name('saveorder');

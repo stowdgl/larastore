@@ -140,6 +140,48 @@
         </div>
     </div>
 </div>
+<br><br><br>
+
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Категория</th>
+        <th scope="col">Название</th>
+        <th scope="col">Код</th>
+        <th scope="col">Характеристики</th>
+        <th scope="col">Производитель</th>
+        <th scope="col">Изображение производителя</th>
+        <th scope="col">Изображение товара</th>
+        <th scope="col">Количество товара</th>
+        <th scope="col">Создано</th>
+        <th scope="col">Редактировано</th>
+        <th scope="col">Управление</th>
+        <th scope="col"></th>
+
+    </tr>
+    </thead>
+    <tbody>
+    @foreach($products as $product)
+    <tr>
+        <th scope="row">{{$product->id}}</th>
+        <td>{{$product->categories[0]->title}}</td>
+        <td>{{$product->title}}</td>
+        <td>{{$product->code}}</td>
+        <td>{{$product->specifications}}</td>
+        <td>{{$product->manufacturer}}</td>
+        <td>{{$product->manufacturer_img}}</td>
+        <td>{{$product->product_img}}</td>
+        <td>{{$product->items_available}}</td>
+        <td>{{$product->created_at}}</td>
+        <td>{{$product->updated_at}}</td>
+        <td><a href="/dashboard/delete/{{$product->id}}" class="btn btn-danger">Удалить</a></td>
+        <td><a href="/dashboard/modify/{{$product->id}}" class="btn btn-warning">Изменить</a></td>
+    </tr>
+    @endforeach
+    </tbody>
+</table>
+
 <script src="{{ URL::asset('js/jquery-3.3.1.js')}}"></script>
 <script src="{{ URL::asset('js/bootstrap4.js')}}"></script>
 </body>

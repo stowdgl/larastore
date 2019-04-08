@@ -16,7 +16,7 @@ class AdminController extends Controller
             if ((auth()->user()->user_type)=='admin'){
                 $products= Products::with('categories','prices')->orderBy('created_at')->get();
                 $categories = Categories::with('products')->orderBy('title')->get();
-                return view('admin.dashboard',['categories'=>$categories]);
+                return view('admin.dashboard',['categories'=>$categories,'products'=>$products]);
             }else{
                 abort(404);
 
@@ -72,5 +72,11 @@ class AdminController extends Controller
         }else{
             abort(404);
         }
+    }
+    public function modifyProd(){
+
+    }
+    public function deleteProd(){
+
     }
 }

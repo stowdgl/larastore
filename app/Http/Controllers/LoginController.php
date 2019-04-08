@@ -39,4 +39,18 @@ class LoginController extends Controller
         auth()->logout();
         return redirect()->to('/');
     }
+    public function account(Request $request){
+        $cart = $request->session()->get('cart');
+
+        $products = [];
+        if (isset($cart)) {
+            foreach ($cart as $item) {
+                $products[] = Products::with('categories', 'prices')->where('id', $item)->get();
+            }
+        }
+        $prodcount= count($products);
+        $products= Products::with('categories','prices')->orderBy('created_at')->paginate(10);
+        $categories = Categories::with('products')->orderBy('title')->get();
+        return view('auth.account',['prodcount'=>$prodcount,'categories'=>$categories,'products'=>$products]);
+    }
 }
