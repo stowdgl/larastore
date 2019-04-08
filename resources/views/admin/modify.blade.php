@@ -57,16 +57,16 @@
                 <label for="validatedCustomFile1">Изображение производителя</label>
                 <div class="custom-file">
 
-                    <input type="file" class="custom-file-input" id="validatedCustomFile1" name="manufacturerimg" value="{{$product->manufacturer_img}}" required>
-                    <label class="custom-file-label" for="validatedCustomFile1">Выбрать изображение
+                    <input type="file" class="custom-file-input" id="validatedCustomFile1" name="manufacturerimg" value="{{$product->manufacturer_img}}" onchange="$('#lbltext3').html(this.files[0].name)" required>
+                    <label class="custom-file-label" for="validatedCustomFile1" id="lbltext3">Выбрать изображение
                         производителя...</label>
                     <div class="invalid-feedback">Example invalid custom file feedback</div>
                 </div>
 
                 <label for="validatedCustomFile1">Изображение товара</label>
                 <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="validatedCustomFile2" name="productimg" value="{{$product->product_img}}" required>
-                    <label class="custom-file-label" for="validatedCustomFile2">Выбрать изображение товара...</label>
+                    <input type="file" class="custom-file-input" id="validatedCustomFile2" name="productimg" value="{{$product->product_img}}" onchange="$('#lbltext4').html(this.files[0].name)" required>
+                    <label class="custom-file-label" for="validatedCustomFile2" id="lbltext4">Выбрать изображение товара...</label>
                     <div class="valid-feedback">Example invalid custom file feedback</div>
                 </div>
                 <div class="form-group">

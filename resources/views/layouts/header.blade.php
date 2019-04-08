@@ -172,7 +172,7 @@
                                 <img src="{{ URL::asset($product->product_img)}}" alt="{{$product->title}}">
                                 <div class="caption">
                                     <h4>{{$product->title}}</h4>
-                                    <h4><a class="defaultBtn" href="/product/{{$product->id}}">VIEW</a> <span class="pull-right">@foreach($product->prices as $price){{$price['price']}}@endforeach</span></h4>
+                                    <h4><a class="defaultBtn" href="/product/{{$product->id}}">VIEW</a> <span class="pull-right">@foreach($product->prices as $price){{'$'.$price['price']}}@endforeach</span></h4>
                                 </div>
                             </div>
                         </li>
