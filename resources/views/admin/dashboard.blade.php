@@ -183,7 +183,7 @@
     @endforeach
     </tbody>
 </table>
-
+{{$products->links()}}
 <script src="{{ URL::asset('js/jquery-3.3.1.js')}}"></script>
 <script src="{{ URL::asset('js/bootstrap4.js')}}"></script>
 </body>

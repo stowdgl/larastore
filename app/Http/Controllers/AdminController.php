@@ -14,7 +14,7 @@ class AdminController extends Controller
         if (auth()->check())
         {
             if ((auth()->user()->user_type)=='admin'){
-                $products= Products::with('categories','prices')->orderBy('created_at')->get();
+                $products= Products::with('categories','prices')->orderBy('created_at')->paginate(50);
                 $categories = Categories::with('products')->orderBy('title')->get();
                 return view('admin.dashboard',['categories'=>$categories,'products'=>$products]);
             }else{
