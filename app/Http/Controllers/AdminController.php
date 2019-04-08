@@ -83,6 +83,8 @@ class AdminController extends Controller
         {
             if ((auth()->user()->user_type)=='admin'){
                 $product = Products::find($request['prodid']);
+                $product->categories()->detach();
+                $product->prices()->detach();
                 $product->title = $request['title'];
                 $product->code = $request['code'];
                 $product->specifications = $request['specifications'];
@@ -92,12 +94,12 @@ class AdminController extends Controller
                 $product->items_available = $request['itemsavailable'];
 
                 $product->save();
-                //$product->categories()->attach($request['categories'],['products_id'=>$product->id]);
+                $product->categories()->attach($request['categories'],['products_id'=>$product->id]);
                 $price = new Prices;
                 $price->price =  $request['price'];
                 $price->product_id = $product->id;
                 $price->save();
-               // $price->products()->attach($price->id,['products_id'=>$product->id]);
+                $price->products()->attach($price->id,['products_id'=>$product->id]);
 
                 return redirect('/dashboard');
             }else{

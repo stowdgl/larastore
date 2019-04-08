@@ -26,7 +26,21 @@ class CategoryController extends Controller
         $prodcount= count($products);
         //$products = Products::with('categories')->where('id',$request[''])->get();
         $upProducts = Products::with('categories','prices')->orderBy('created_at')->get();
-        $products =Categories::find($request['id'])->products()->get();
+        try{
+            $products =Categories::find($request['id'])->products()->get();
+            if (count($products)==0&& !isset($products)){
+                abort(404);
+            }
+        }catch (\Throwable $e){
+            abort(404);
+        }
+
+
+
+
+
+
+
         $categories = Categories::with('products')->orderBy('title')->get();
         $prod = Products::with('categories','prices')->get();
         return view('category_view',['products'=>$products,'categories'=>$categories,'upProducts'=>$upProducts,'prod'=>$prod,'prodcount'=>$prodcount]);

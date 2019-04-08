@@ -9,35 +9,10 @@
     <link href="{{ URL::asset('css/bootstrap4.css')}}" rel="stylesheet"/>
 </head>
 <body>
-{{--<form action="/dashboard/createprod" method="post">
-    @csrf
-    <label for="categories">Категория: </label>
-    <select name="categories" id="cat">
-        @foreach($categories as $category)
-        <option value="{{$category->id}}">{{$category->title}}</option>
-            @endforeach
-    </select><br>
-    <label for="title">Название: </label>
-    <input type="text" name="title"><br>
-    <label for="code">Код: </label>
-    <input type="text" name="code"><br>
-    <label for="specifications">Спецификации: </label>
-    <input type="text" name="specifications"><br>
-    <label for="manufacturer">Производитель: </label>
-    <input type="text" name="manufacturer"><br>
-    <label for="manufacturerimg">Картинка производителя: </label>
-    <input type="file" name="manufacturerimg"><br>
-    <label for="productimg">Картинка товара: </label>
-    <input type="file" name="productimg"><br>
-    <label for="itemsavailable">Количество: </label>
-    <input type="text" name="itemsavailable"><br>
-    <label for="price">Цена: </label>
-    <input type="text" name="price"><br>
-    <input type="submit" value="Подтвердить">
-</form>--}}
+
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6" style="border-right: 1px solid #a39d9d">
             <h3>
                 Добавить товар
             </h3>
@@ -112,7 +87,7 @@
                 </button>
             </form>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6" >
             <h3>
                 Добавить категорию
             </h3>
@@ -166,7 +141,7 @@
     @foreach($products as $product)
     <tr>
         <th scope="row">{{$product->id}}</th>
-        <td>{{'d'}}</td>
+        <td>{{$product->categories[0]->title}}</td>
         <td>{{$product->title}}</td>
         <td>{{$product->code}}</td>
         <td>{{$product->specifications}}</td>
@@ -174,7 +149,7 @@
         <td>{{$product->manufacturer_img}}</td>
         <td>{{$product->product_img}}</td>
         <td>{{$product->items_available}}</td>
-        <td>{{'$'.$product->prices[0]->price}}</td>
+        <td>{{'$'.@$product->prices[0]->price}}</td>
         <td>{{$product->created_at}}</td>
         <td>{{$product->updated_at}}</td>
         <td><a href="/dashboard/delete/{{$product->id}}" class="btn btn-danger">Удалить</a></td>

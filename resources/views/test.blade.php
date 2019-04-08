@@ -1,4 +1,4 @@
 <?php
 
-var_dump($id);
+var_dump($products);
 ?>

@@ -74,6 +74,7 @@ class ProductController extends Controller
      */
     public function show(Request $request)
     {
+
         $cart = $request->session()->get('cart');
 
         $products = [];
@@ -84,7 +85,15 @@ class ProductController extends Controller
         }
         $prodcount= count($products);
         $upProducts = Products::with('categories','prices')->orderBy('created_at')->get();
-        $products =Products::with('prices')->where('id',$request['id'])->get();
+        try{
+            $products =Products::with('prices')->where('id',$request['id'])->get();
+            if (!isset($products[0]->title)){
+                abort(404);
+            }
+        }catch (\Throwable $e){
+            abort(404);
+        }
+
         $prod = Products::with('categories','prices')->get();
         $categories = Categories::with('products')->orderBy('title')->get();
         $relprod = Products::with('categories','prices')->take(5)->get();
