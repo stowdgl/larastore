@@ -154,6 +154,7 @@
         <th scope="col">Изображение производителя</th>
         <th scope="col">Изображение товара</th>
         <th scope="col">Количество товара</th>
+        <th scope="col">Цена</th>
         <th scope="col">Создано</th>
         <th scope="col">Редактировано</th>
         <th scope="col">Управление</th>
@@ -165,7 +166,7 @@
     @foreach($products as $product)
     <tr>
         <th scope="row">{{$product->id}}</th>
-        <td>{{$product->categories[0]->title}}</td>
+        <td>{{'d'}}</td>
         <td>{{$product->title}}</td>
         <td>{{$product->code}}</td>
         <td>{{$product->specifications}}</td>
@@ -173,6 +174,7 @@
         <td>{{$product->manufacturer_img}}</td>
         <td>{{$product->product_img}}</td>
         <td>{{$product->items_available}}</td>
+        <td>{{'$'.$product->prices[0]->price}}</td>
         <td>{{$product->created_at}}</td>
         <td>{{$product->updated_at}}</td>
         <td><a href="/dashboard/delete/{{$product->id}}" class="btn btn-danger">Удалить</a></td>

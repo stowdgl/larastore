@@ -1,4 +1,4 @@
 <?php
 
-var_dump($request);
+var_dump($id);
 ?>
